@@ -130,7 +130,7 @@ const MovieDetails = () => {
       <div className="mt-5 relative mb-5 mx-[5%]">
         {info.watchproviders &&
           Object.values(info.watchproviders.results).flatMap((provider) =>
-            ["ads", "buy"].flatMap((type) =>
+            ["flatrate", "rent", "ads", "buy"].flatMap((type) =>
               provider[type]
                 ? provider[type].map((w) => (
                     <img
