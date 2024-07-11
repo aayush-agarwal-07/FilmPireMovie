@@ -30,7 +30,6 @@ const MovieDetails = () => {
       return truncated + "..."; // Fallback if no period found
     }
   };
-  console.log(info);
 
   useEffect(() => {
     dispatch(asyncloadmovie(id));
@@ -131,11 +130,11 @@ const MovieDetails = () => {
       <div className="mt-5 relative mb-5 mx-[5%]">
         {info.watchproviders &&
           Object.values(info.watchproviders.results).flatMap((provider) =>
-            ["flatrate", "ads"].flatMap((type) =>
+            ["ads", "buy"].flatMap((type) =>
               provider[type]
                 ? provider[type].map((w) => (
                     <img
-                      className="h-[7vh] w-[7vw] object-contain rounded-lg absolute left-[-2%] z-10"
+                      className="h-[7vh] w-[7vw] object-contain rounded absolute left-[-2%] z-10"
                       src={`https://image.tmdb.org/t/p/w500/${w.logo_path}`}
                       alt=""
                       key={w.provider_id}

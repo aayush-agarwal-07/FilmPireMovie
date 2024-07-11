@@ -9,11 +9,12 @@ import Topnav from "./Templates/Topnav";
 
 const Trending = () => {
   const [data, setData] = useState([]);
-  const [category, setCategory] = useState("movie");
-  const [time, setTime] = useState("week");
-  const [isLoading, setIsLoading] = useState(true);
+  const [category, setCategory] = useState("all");
+  const [time, setTime] = useState("day");
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
 
   const getTrending = async () => {
     try {
@@ -34,20 +35,43 @@ const Trending = () => {
   const refreshHandler = () => {
     setPage(1);
     setData([]);
+    setHasMore(true);
+    getTrending();
   };
 
   useEffect(() => {
-    const loadData = async () => {
-      setIsLoading(true);
-      await getTrending();
-      setIsLoading(false);
-    };
-
-    loadData();
+    refreshHandler();
   }, [category, time]);
 
+  const handleCategoryChange = (value) => {
+    setCategory(value);
+  };
+
+  const handleTimeChange = (value) => {
+    setTime(value);
+  };
+
+  const handleScroll = () => {
+    if (window.scrollY > 200) {
+      setShowScrollTop(true);
+    } else {
+      setShowScrollTop(false);
+    }
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <div className="w-screen pt-[2%] relative overflow-x-hidden">
+    <div className="w-screen pt-[2%] relative">
       <div className="w-[100%] h-10vh flex items-center px-10 z-20">
         <Link to="/">
           <i className="ri-arrow-left-line hover:text-purple-400 text-2xl font-semibold text-white mr-5"></i>
@@ -55,19 +79,36 @@ const Trending = () => {
         <h1 className="text-2xl font-semibold text-zinc-400 absolute top-[7%] left-[7%]">
           Trending
         </h1>
-        <div className="w-[90%] ml-[10%] z-[10%]">
+        <div className="w-[70%] ml-[10%] z-[10%]">
           <Topnav />
         </div>
-        
+        <Dropdown
+          title="Filter"
+          options={["movie", "tv", "all"]}
+          func={handleCategoryChange}
+        />
+        <Dropdown
+          title="Filter"
+          options={["week", "day"]}
+          func={handleTimeChange}
+        />
       </div>
       <InfiniteScroll
-        next={getTrending}
         dataLength={data.length}
-        loader={<Loading />}
+        next={getTrending}
         hasMore={hasMore}
+        loader={<Loading />}
       >
         <Cards data={data} />
       </InfiniteScroll>
+      {showScrollTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-10 right-7 bg-purple-500 text-white p-2 rounded-full shadow-lg hover:bg-purple-700 transition"
+        >
+          <i className="ri-arrow-up-s-line text-xl"></i>
+        </button>
+      )}
     </div>
   );
 };

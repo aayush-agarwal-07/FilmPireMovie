@@ -1,65 +1,105 @@
 import React, { useEffect, useState } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
 import { Link } from "react-router-dom";
 import axios from "../utils/axios";
 import Cards from "./Templates/Cards";
 import Dropdown from "./Templates/Dropdown";
-import Topnav from "./Templates/Topnav";
 import Loading from "./Templates/Loading";
+import Topnav from "./Templates/Topnav";
 
 const Movies = () => {
-  const [movie, setMovie] = useState([]);
+  const [movies, setMovies] = useState([]);
   const [category, setCategory] = useState("now_playing");
-  const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  document.title = "SCSDB | Movies";
+  const [showScrollTop, setShowScrollTop] = useState(false);
 
-  const getMovie = async () => {
+  document.title = `SCSDB | Movies (${category})`;
+
+  const getMovies = async () => {
     try {
-      const { data } = await axios.get(`/movie/${category}`);
-      console.log(data)
+      const { data } = await axios.get(`/movie/${category}?page=${page}`);
       if (data.results.length > 0) {
-        setMovie((prevMovie) => [...prevMovie, ...data.results]);
+        setMovies((prevState) => [...prevState, ...data.results]);
         setPage(page + 1);
       } else {
         setHasMore(false);
       }
     } catch (error) {
-      console.log("Error fetching trending data: ", error);
+      console.log("Error fetching movie data: ", error);
     }
   };
 
   const refreshHandler = () => {
-    if (movie.length === 0) {
-      getMovie();
-    } else {
-      setPage(1);
-      setMovie([]);
-      getMovie();
-    }
+    setPage(1);
+    setMovies([]);
+    setHasMore(true);
+    getMovies();
   };
 
   useEffect(() => {
     refreshHandler();
   }, [category]);
 
+  const handleCategoryChange = (value) => {
+    setCategory(value);
+  };
+
+  const handleScroll = () => {
+    if (window.scrollY > 200) {
+      setShowScrollTop(true);
+    } else {
+      setShowScrollTop(false);
+    }
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <div className="w-screen h-screen pt-[2%] relative overflow-x-hidden">
+    <div className="w-screen h-screen pt-[2%] relative">
       <div className="w-[100%] h-10vh flex items-center px-10 z-20">
         <Link to="/">
           <i className="ri-arrow-left-line hover:text-purple-400 text-2xl font-semibold text-white mr-5"></i>
         </Link>
-        <h1 className="text-2xl font-semibold text-zinc-400 absolute top-[7%] left-[7%]">
+        <h1 className="text-2xl font-semibold text-zinc-400 absolute top-[7%] left-[7.5%]">
           Movie<small className="text-sm ml-[2px]">({category})</small>
         </h1>
-        <div className="w-[90%] ml-[15%] z-[10%]">
+        <div className="w-[70%] ml-[15%] z-[10%]">
           <Topnav />
         </div>
-        
+        <Dropdown
+          title="Filter"
+          options={["popular", "top_rated", "upcoming", "now_playing"]}
+          func={handleCategoryChange}
+        />
       </div>
-
-      <Cards data={movie} title={"movie"} />
+      <InfiniteScroll
+        dataLength={movies.length}
+        next={getMovies}
+        hasMore={hasMore}
+        loader={<Loading />}
+      >
+        <Cards data={movies} title="movie" />
+      </InfiniteScroll>
+      {showScrollTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-10 right-7 bg-purple-500 text-white p-2 rounded-full shadow-lg hover:bg-purple-700 transition"
+        >
+          <i className="ri-arrow-up-s-line text-xl"></i>
+        </button>
+      )}
     </div>
-  ) 
-}
+  );
+};
+
 export default Movies;

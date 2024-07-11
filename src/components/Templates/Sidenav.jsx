@@ -27,7 +27,6 @@ const List = [
 
 const Sidenav = () => {
   const { info } = useSelector((state) => state.tv);
-  console.log(info);
 
   return (
     <div className="w-[20%] h-full border-r-2 border-zinc-400 p-5 relative">

@@ -5,7 +5,6 @@ const Header = ({ data }) => {
   const imageUrl = `url(https://image.tmdb.org/t/p/original/${
     data.backdrop_path || data.profile_path
   })`;
-  console.log({ data });
   return (
     <div
       style={{

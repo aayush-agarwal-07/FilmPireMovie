@@ -4,7 +4,6 @@ import noimage from "../../assets/no-image.jpg";
 import Loading from "./Loading";
 
 const Cards = ({ data, title }) => {
-  console.log(title);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -60,7 +59,7 @@ const Cards = ({ data, title }) => {
           <h1 className="text-lg text-black font-semibold w-[10vw] h-[3vh]">
             {d.name || d.title || d.original_name || d.original_title}
           </h1>
-          {d.vote_average && (
+          {d.vote_average > 0 && (
             <div
               className="absolute right-[87%] bottom-[25%] rounded-full text-lg font-semibold 
             bg-yellow-600 text-white w-[7vh] h-[7vh] flex justify-center items-center"

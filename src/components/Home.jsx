@@ -37,10 +37,11 @@ const Home = () => {
     if (!wallpaper) {
       getWallpaper();
     }
-    if (!trending) {
-      getTrending();
-    }
-  }, [category, wallpaper, trending]);
+  }, [wallpaper]);
+
+  useEffect(() => {
+    getTrending();
+  }, [category]);
 
   const handleCategoryChange = (value) => {
     setCategory(value); // Update category state
