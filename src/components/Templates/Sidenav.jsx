@@ -30,17 +30,14 @@ const Sidenav = () => {
 
   return (
     <div className="w-[20%] h-full border-r-2 border-zinc-400 p-5 relative">
-      <div className="flex gap-2 text-white text-2xl font-bold select-none">
-        <i className="ri-film-line text-purple-500"></i>
-        <h1>SCSDB.</h1>
-      </div>
+      <img src="https://fontmeme.com/permalink/210930/8531c658a743debe1e1aa1a2fc82006e.png" className="w-[12vw]"/>
       <h1 className="text-white text-xl font-semibold mt-10 mb-5">New Feeds</h1>
       <div className="flex flex-col gap-3">
         {List.map((l, i) => (
           <Link
             to={l.to}
             key={i}
-            className="flex justify-start text-xl text-white gap-2 py-2 px-3 rounded-lg hover:bg-purple-400 duration-300"
+            className="flex justify-start text-xl text-white gap-2 py-2 px-3 rounded-lg hover:bg-[#1277D3] duration-300"
           >
             <div>{l.icon}</div>
             <h1 className="font-medium">{l.h}</h1>

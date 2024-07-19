@@ -14,7 +14,7 @@ const TvShows = () => {
   const [hasMore, setHasMore] = useState(true);
   const [showScrollTop, setShowScrollTop] = useState(false);
 
-  document.title = "SCSDB | TvShows";
+  document.title = "Filmpire | TvShows";
 
   const getTv = async () => {
     try {
@@ -68,7 +68,7 @@ const TvShows = () => {
     <div className="w-screen h-screen pt-[2%] relative">
       <div className="w-[100%] h-10vh flex items-center px-10 z-20">
         <Link to="/">
-          <i className="ri-arrow-left-line hover:text-purple-400 text-2xl font-semibold text-white mr-5"></i>
+          <i className="ri-arrow-left-line hover:text-blue-400 text-2xl font-semibold text-white mr-5"></i>
         </Link>
         <h1 className="text-2xl font-semibold text-zinc-400 absolute top-[7%] left-[7%]">
           TvShows<small className="text-sm ml-[2px]">({category})</small>
@@ -95,9 +95,9 @@ const TvShows = () => {
       {showScrollTop && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-10 right-7 bg-purple-500 text-white p-2 rounded-full shadow-lg hover:bg-purple-700 transition"
+          className="fixed bottom-10 right-7 bg-zinc-50 text-white p-2 rounded-full shadow-lg transition"
         >
-          <i className="ri-arrow-up-s-line text-xl"></i>
+          <i className="ri-arrow-up-s-line text-xl text-blue-600 font-semibold"></i>
         </button>
       )}
     </div>

@@ -26,16 +26,16 @@ const HorizontalCards = ({ data }) => {
         {data.map((d, i) => (
           <Link to={`/${d.media_type}/details/${d.id}}`}
             key={i}
-            className="w-[18%] h-full bg-purple-100 hover:bg-purple-300 rounded-xl flex-shrink-0 p-2 transition-transform duration-300 relative hover:z-20"
+            className="w-[18%] h-full bg-[#FFFFFF] hover:bg-blue-300 rounded-xl flex-shrink-0 p-2 transition-transform duration-300 relative hover:z-20"
           >
             <img
-              className="h-[20vh] w-full object-cover"
+              className="h-[28vh] w-full object-cover rounded"
               src={d.backdrop_path || d.poster_path ? `https://image.tmdb.org/t/p/w500/${
                 d.backdrop_path || d.poster_path
               }` : noimage}
               alt={d.name || d.title || d.original_name || d.original_title}
             />
-            <div className="">{getTitle(d)}</div>
+            <div className="text-lg font-medium">{getTitle(d)}</div>
             <p className="text-xs text-zinc-600 m-1">
               {d.overview.slice(0, 80)}....
             </p>

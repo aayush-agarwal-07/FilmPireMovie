@@ -48,7 +48,7 @@ const MovieDetails = () => {
       {/* Part 1 */}
       <nav className="w-[100%] h-[10vh] text-zinc-300 flex items-center gap-6 text-lg mx-[5%]">
         <i
-          className="ri-arrow-left-line hover:text-purple-400 text-2xl font-semibold text-zinc-200 mr-5 "
+          className="ri-arrow-left-line hover:text-blue-400 text-2xl font-semibold text-zinc-200 mr-5 cursor-pointer"
           onClick={() => navigate(-1)}
         ></i>
 
@@ -96,8 +96,14 @@ const MovieDetails = () => {
               className="rounded-full text-lg font-semibold 
             bg-yellow-500 text-white w-[7vh] h-[7vh] flex justify-center items-center"
             >
-              {(info.detail.vote_average * 10).toFixed()}
-              <sup>%</sup>
+              {(info.detail.vote_average * 10).toFixed() === "0" ? (
+                "NA"
+              ) : (
+                <>
+                  {(info.detail.vote_average * 10).toFixed()}
+                  <sup>%</sup>
+                </>
+              )}
             </span>
             <h1 className="w-[20px] font-semibold text-xl leading-5 mr-8">
               User Score
@@ -115,13 +121,13 @@ const MovieDetails = () => {
           </p>
           <Link
             to={`${pathname}/trailer`}
-            className="bg-purple-400 text-white font-medium w-[140px] h-[35px] flex items-center 
+            className="bg-blue-500 text-white font-semibold w-[140px] h-[35px] flex items-center 
             justify-center rounded-3xl mt-3"
           >
             <span>
               <i className="ri-play-fill mr-2"></i>
             </span>
-            Play Trailer
+            <span className="font-semibold">Play Trailer</span>
           </Link>
         </div>
       </div>

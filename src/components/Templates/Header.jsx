@@ -25,17 +25,17 @@ const Header = ({ data }) => {
       </p>
       <div className="flex gap-5 mt-1">
         <h5 className="text-white">
-          <i className="ri-megaphone-fill text-purple-300 mr-1"></i>
+          <i className="ri-megaphone-fill text-[#1277D3] mr-1"></i>
           {data.release_date || "No Information"}
         </h5>
         <h5 className="text-white">
-          <i className="ri-disc-fill text-purple-300 mr-1"></i>
+          <i className="ri-disc-fill text-[#1277D3] mr-1"></i>
           {data.media_type.toUpperCase()}
         </h5>
       </div>
       <Link
         to={`/${data.media_type}/details/${data.id}/trailer`}
-        className="bg-purple-400 text-white w-[140px] h-[35px] flex items-center justify-center rounded-3xl 
+        className="bg-[#1277D3] text-white w-[140px] h-[35px] flex items-center justify-center rounded-3xl 
       mt-2"
       >
         Watch Trailer

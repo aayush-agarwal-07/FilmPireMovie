@@ -50,7 +50,7 @@ const TvDetails = () => {
       {/* Part 1 */}
       <nav className="w-[100%] h-[10vh] text-zinc-300 flex items-center gap-6 text-lg mx-[5%]">
         <i
-          className="ri-arrow-left-line hover:text-purple-400 text-2xl font-semibold text-zinc-200 mr-5 "
+          className="ri-arrow-left-line hover:text-blue-400 text-2xl font-semibold text-zinc-200 mr-5 "
           onClick={() => navigate(-1)}
         ></i>
 
@@ -118,7 +118,7 @@ const TvDetails = () => {
           </p>
           <Link
             to={`${pathname}/trailer`}
-            className="bg-purple-400 text-white font-medium w-[140px] h-[35px] flex items-center 
+            className="bg-blue-400 text-white font-medium w-[140px] h-[35px] flex items-center 
             justify-center rounded-3xl mt-3"
           >
             <span>
@@ -156,9 +156,9 @@ const TvDetails = () => {
 
       <h1 className="mt-3 text-2xl font-semibold text-white">Seasons</h1>
       {info.detail.seasons && info.detail.seasons.length > 0 && (
-        <div className="w-[100%] flex overflow-x-hidden mb-5 p-5 text-white">
+        <div className="w-[100%] flex mb-5 p-5 text-white">
           {info.detail.seasons.map((s, i) => (
-            <div key={i} className="flex flex-col mr-2">
+            <div key={i} className="">
               <img
                 className="h-[40vh] object-cover"
                 src={

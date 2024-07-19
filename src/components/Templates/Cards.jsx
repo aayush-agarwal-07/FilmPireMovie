@@ -43,10 +43,10 @@ const Cards = ({ data, title }) => {
         <Link
           to={`/${d.media_type || title}/details/${d.id}`}
           key={i}
-          className="card relative w-[17%] top-[10%] shadow-[8px_17px_18px_2px] bg-purple-100 hover:bg-purple-300 p-[1%] transition duration-300 transform hover:scale-[1.10] rounded"
+          className="card relative w-[17%] h-[60vh] top-[10%] shadow-[8px_17px_18px_2px] bg-[#1F1E24] hover:bg-blue-300 p-[1%] transition duration-300 transform hover:scale-[1.10] rounded-3xl group"
         >
           <img
-            className="h-[50vh] w-full object-contain "
+            className="h-[48vh] w-full object-contain rounded-2xl "
             src={
               d.poster_path || d.profile_path
                 ? `https://image.tmdb.org/t/p/w500/${
@@ -56,7 +56,7 @@ const Cards = ({ data, title }) => {
             }
             alt={d.name || d.title || d.original_name || d.original_title}
           />
-          <h1 className="text-lg text-black font-semibold w-[10vw] h-[3vh]">
+          <h1 className="text-lg text-white font-semibold h-[6vh] text-start group-hover:text-black">
             {d.name || d.title || d.original_name || d.original_title}
           </h1>
           {d.vote_average > 0 && (
