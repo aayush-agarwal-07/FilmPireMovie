@@ -80,7 +80,7 @@ const Trending = () => {
         <h1 className="text-2xl font-semibold text-zinc-400 absolute top-[7%] left-[7%]">
           Trending
         </h1>
-        <div className="w-[70%] ml-[10%] z-[10%]">
+        <div className="w-[62%] ml-[10%] z-[10%]">
           <Topnav />
         </div>
         <Dropdown

@@ -29,7 +29,7 @@ select {
   background: #272720;
   background-image: none;
   flex: 1;
-  padding: 0 0.5em;
+  padding: 0 0.2em;
   color: #fff;
   cursor: pointer;
   font-size: 1em;
@@ -45,12 +45,13 @@ select::-ms-expand {
   position: relative;
   display: flex;
   width: 8em;
-  height: 2em;
+  height: 1.8em;
   line-height: 2;
   background: #272720;
   overflow: hidden;
   border-radius: 0.25em;
   margin-right: 1em;
+  text-align: center;
 }
 
 .select::after {
