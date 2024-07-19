@@ -38,6 +38,11 @@ const TvDetails = () => {
     return () => dispatch(removetv());
   }, [dispatch, id]);
 
+  const filteredSeasons =
+    info && info.detail && info.detail.seasons
+      ? info.detail.seasons.filter((season) => season.poster_path !== null)
+      : [];
+
   return info ? (
     <div
       style={{
@@ -45,7 +50,7 @@ const TvDetails = () => {
         backgroundPosition: "center",
         backgroundSize: "cover",
       }}
-      className="w-screen h-[192vh] px-[5%] relative"
+      className="w-screen h-[208vh] px-[5%] relative object-"
     >
       {/* Part 1 */}
       <nav className="w-[100%] h-[10vh] text-zinc-300 flex items-center gap-6 text-lg mx-[5%]">
@@ -155,17 +160,13 @@ const TvDetails = () => {
       <hr className="border-none h-[1px] bg-zinc-400 mt-1" />
 
       <h1 className="mt-3 text-2xl font-semibold text-white">Seasons</h1>
-      {info.detail.seasons && info.detail.seasons.length > 0 && (
-        <div className="w-[100%] flex mb-5 p-5 text-white">
-          {info.detail.seasons.map((s, i) => (
-            <div key={i} className="">
+      {filteredSeasons.length > 0 && (
+        <div className="w-[100%] mb-5 p-2 text-white whitespace-nowrap overflow-x-auto">
+          {filteredSeasons.map((s, i) => (
+            <div key={i} className="inline-block mr-2">
               <img
                 className="h-[40vh] object-cover"
-                src={
-                  s.backdrop_path || s.poster_path
-                    ? `https://image.tmdb.org/t/p/w500/${s.poster_path}`
-                    : noimage
-                }
+                src={`https://image.tmdb.org/t/p/w500/${s.poster_path}`}
                 alt={s.name || s.title || s.original_name || s.original_title}
               />
             </div>
