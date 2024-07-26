@@ -8,7 +8,7 @@ import Sidenav from "./Templates/Sidenav";
 import Topnav from "./Templates/Topnav";
 
 const Home = () => {
-  document.title = "SCSDB | Homepage";
+  document.title = "FILMPIRE | Homepage";
   const [wallpaper, setWallpaper] = useState(null);
   const [trending, setTrending] = useState(null);
   const [category, setCategory] = useState("tv");
