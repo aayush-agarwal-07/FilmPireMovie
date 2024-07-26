@@ -70,7 +70,7 @@ const Movies = () => {
         <Link to="/">
           <i className="ri-arrow-left-line hover:hover:text-blue-400 text-2xl font-semibold text-white mr-5"></i>
         </Link>
-        <h1 className="text-2xl font-semibold text-zinc-400 absolute top-[7%] left-[7.5%]">
+        <h1 className="text-2xl font-semibold text-zinc-400 absolute top-[52px] left-[7.5%]">
           Movie<small className="text-sm ml-[2px]">({category})</small>
         </h1>
         <div className="w-[70%] ml-[15%] z-[10%]">

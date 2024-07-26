@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import noimage from "../../assets/no-image.jpg";
 import Loading from "./Loading";
@@ -14,27 +14,6 @@ const Cards = ({ data, title }) => {
     return () => clearTimeout(timeout); // Cleanup timeout on component unmount
   }, []); // Empty dependency array ensures this effect runs only once
 
-  const getTitle = (item) => {
-    // Check for name and split it, if available
-    if (item.name) {
-      return item.name.split(":")[0].trim();
-    }
-    // Check for title and split it, if available
-    else if (item.title) {
-      return item.title.split(":")[0].trim();
-    }
-    // Check for original_name and split it, if available
-    else if (item.original_name) {
-      return item.original_name.split(":")[0].trim();
-    }
-    // Check for original_title and split it, if available
-    else if (item.original_title) {
-      return item.original_title.split(":")[0].trim();
-    }
-    // Default case if none of the conditions match
-    return "";
-  };
-
   return isLoading ? (
     <Loading />
   ) : (
@@ -43,21 +22,24 @@ const Cards = ({ data, title }) => {
         <Link
           to={`/${d.media_type || title}/details/${d.id}`}
           key={i}
-          className="card relative w-[17%] h-[57vh] top-[10%] shadow-[8px_17px_18px_2px] bg-[#1F1E24] p-[1%] transition duration-300 transform hover:scale-[1.10] rounded-3xl group"
+          className="card w-[300px] h-[500px] shadow-[8px_17px_18px_2px] bg-[#1F1E24] p-[1%] transition duration-300 transform hover:scale-[1.10] hover:z-[999] rounded-3xl group"
         >
           <img
-            className="h-[48vh] w-full object-contain rounded-2xl "
+            className="h-[620px] w-full object-contain rounded-2xl -mt-[85px]"
             src={
               d.poster_path || d.profile_path
                 ? `https://image.tmdb.org/t/p/w500/${
                     d.poster_path || d.profile_path
                   }`
-                : noimage
+                : { noimage }
             }
             alt={d.name || d.title || d.original_name || d.original_title}
           />
-          <h1 className="text-lg text-white font-semibold text-start group-hover:text-black leading-5 mt-1 ">
-            {(d.name || d.title || d.original_name || d.original_title).slice(0,15)}
+          <h1 className="text-lg text-white font-semibold text-start group-hover:text-black leading-5 -mt-[95px]">
+            {(d.name || d.title || d.original_name || d.original_title).slice(
+              0,
+              15
+            )}
           </h1>
           {d.vote_average > 0 && (
             <div

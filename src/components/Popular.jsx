@@ -69,7 +69,7 @@ const Popular = () => {
         <Link to="/">
           <i className="ri-arrow-left-line hover:text-blue-400 text-2xl font-semibold text-white mr-5"></i>
         </Link>
-        <h1 className="text-2xl font-semibold text-zinc-400 absolute top-[7%] left-[7%]">
+        <h1 className="text-2xl font-semibold text-zinc-400 absolute top-[52px] left-[7%]">
           Popular
         </h1>
         <div className="w-[80%] ml-[7%] z-[10%]">

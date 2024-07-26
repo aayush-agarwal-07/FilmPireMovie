@@ -9,10 +9,10 @@ const Header = ({ data }) => {
     <div
       style={{
         backgroundImage: `linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0)), ${imageUrl}`,
-        backgroundPosition: "top",
+        backgroundPosition: "center",
         backgroundSize: "cover",
       }}
-      className="h-[60vh] w-full rounded flex flex-col justify-end p-[3%]"
+      className="h-[550px] w-full rounded flex flex-col justify-end p-[3%]"
     >
       <h1 className="text-3xl text-white font-bold">
         {data.name || data.title || data.original_name || data.original_title}
