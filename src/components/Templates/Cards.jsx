@@ -35,10 +35,10 @@ const Cards = ({ data, title }) => {
             }
             alt={d.name || d.title || d.original_name || d.original_title}
           />
-          <h1 className="text-lg text-white font-semibold text-start group-hover:text-black leading-5 -mt-[95px]">
+          <h1 className="text-lg text-white font-semibold text-start group-hover:text-black leading-5 -mt-[105px]">
             {(d.name || d.title || d.original_name || d.original_title).slice(
               0,
-              15
+              48
             )}
           </h1>
           {d.vote_average > 0 && (

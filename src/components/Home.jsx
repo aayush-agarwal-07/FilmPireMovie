@@ -46,11 +46,12 @@ const Home = () => {
   const handleCategoryChange = (value) => {
     setCategory(value); // Update category state
   };
+  console.log("trending", trending)
 
   return wallpaper && trending ? (
     <>
       <Sidenav />
-      <div className="w-[80%] h-full overflow-x-auto">
+      <div className="w-[84%] h-full overflow-x-auto">
         <Topnav />
         <Header data={wallpaper} />
         <div className="w-full h-[10vh] flex justify-between items-center py-7 z-10">

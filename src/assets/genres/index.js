@@ -8,7 +8,7 @@ import drama from "./drama.png";
 import family from "./family.png";
 import fantasy from "./fantasy.png";
 import horror from "./horror.png";
-import navigation from "./navigation.png";
+import history from "./history.png";
 import mystery from "./mystery.png";
 import music from "./music.png";
 import romance from "./romance.png";
@@ -17,11 +17,11 @@ import thriller from "./thriller.png";
 import tvMovie from "./tv movie.png";
 import war from "./war.png";
 import western from "./western.png";
-
 import popular from "./popular.png";
 import topRated from "./top rated.png";
 import upcoming from "./upcoming.png";
 
+// Ensure there's no mention of navigation.png here
 export default {
   action,
   adventure,
@@ -33,7 +33,7 @@ export default {
   family,
   fantasy,
   horror,
-  navigation,
+  history,
   mystery,
   music,
   romance,
@@ -42,7 +42,6 @@ export default {
   "tv movie": tvMovie,
   war,
   western,
-
   popular,
   "top rated": topRated,
   upcoming,

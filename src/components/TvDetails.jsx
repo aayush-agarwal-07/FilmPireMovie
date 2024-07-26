@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 import {
   Link,
   Outlet,
@@ -11,13 +12,75 @@ import { asyncloadtv, removetv } from "../actions/tvAction";
 import noimage from "../assets/no-image.jpg";
 import HorizontalCards from "./Templates/HorizontalCards";
 import Loading from "./Templates/Loading";
+import { useGetTvQuery, useGetListQuery } from "../services/TMDB";
+import { MdFavorite, MdFavoriteBorder, MdPlusOne } from "react-icons/md";
+import { CgRemove } from "react-icons/cg";
+import { userSelector } from "../reducers/auth";
 
 const TvDetails = () => {
   const navigate = useNavigate();
+  const { user } = useSelector(userSelector);
   const { pathname } = useLocation();
   const { id } = useParams();
   const dispatch = useDispatch();
   const { info } = useSelector((state) => state.tv);
+  const { data } = useGetTvQuery(id);
+
+  const { data: favoriteTv } = useGetListQuery({
+    listName: "favorite/tv",
+    accountId: user.id,
+    sessionId: localStorage.getItem("session_id"),
+    page: 1,
+  });
+  const { data: watchlistTv } = useGetListQuery({
+    listName: "watchlist/tv",
+    accountId: user.id,
+    sessionId: localStorage.getItem("session_id"),
+    page: 1,
+  });
+
+  const [isTvFavorited, setIsTvFavorited] = useState(false);
+  const [isTvWatchlisted, setIsTvWatchlisted] = useState(false);
+
+  useEffect(() => {
+    setIsTvFavorited(!!favoriteTv?.results?.find((tv) => tv?.id === data?.id));
+  }, [favoriteTv, data]);
+
+  useEffect(() => {
+    setIsTvWatchlisted(
+      !!watchlistTv?.results?.find((tv) => tv?.id === data?.id)
+    );
+  }, [watchlistTv, data]);
+
+  const addToFavorites = async () => {
+    await axios.post(
+      `https://api.themoviedb.org/3/account/${user.id}/favorite?api_key=${
+        import.meta.env.VITE_TMDB_KEY
+      }&session_id=${localStorage.getItem("session_id")}`,
+      {
+        media_type: "tv",
+        media_id: id,
+        favorite: !isTvFavorited,
+      }
+    );
+
+    setIsTvFavorited((prev) => !prev);
+  };
+
+  const addToWatchlist = async () => {
+    await axios.post(
+      `https://api.themoviedb.org/3/account/${user.id}/watchlist?api_key=${
+        import.meta.env.VITE_TMDB_KEY
+      }&session_id=${localStorage.getItem("session_id")}`,
+      {
+        media_type: "tv",
+        media_id: id,
+        watchlist: !isTvWatchlisted,
+      }
+    );
+
+    setIsTvWatchlisted((prev) => !prev);
+  };
 
   const truncateOverview = (overview) => {
     if (overview.length <= 400) {
@@ -40,8 +103,30 @@ const TvDetails = () => {
 
   const filteredSeasons =
     info && info.detail && info.detail.seasons
-      ? info.detail.seasons.filter((season) => season.poster_path !== null)
+      ? info.detail.seasons
+          .filter((season) => season.season_number > 0) // Exclude specials (season_number 0)
+          .sort((a, b) => a.season_number - b.season_number) // Sort by season number
       : [];
+
+  // const getLogoPath = () => {
+  //   const watchProviders = info?.watchprovidersresults?.IN;
+
+  //   if (watchProviders?.flatrate?.length > 0) {
+  //     return watchProviders.flatrate[0].logo_path;
+  //   } else if (watchProviders?.buy?.length > 0) {
+  //     return watchProviders.buy[0].logo_path;
+  //   } else if (watchProviders?.ads?.length > 0) {
+  //     return watchProviders.ads[0].logo_path;
+  //   } else if (watchProviders?.rent?.length > 0) {
+  //     return watchProviders.rent[0].logo_path;
+  //   } else {
+  //     // Handle case where none of the above are present
+  //     return null; // or an appropriate fallback, e.g., a default image URL
+  //   }
+  // };
+
+  console.log(info?.detail?.networks[0]?.logo_path)
+  const logo_path =  info?.detail?.networks[0]?.logo_path;
 
   return info ? (
     <div
@@ -53,7 +138,7 @@ const TvDetails = () => {
       className="w-screen h-[208vh] px-[5%] relative object-"
     >
       {/* Part 1 */}
-      <nav className="w-[100%] h-[10vh] text-zinc-300 flex items-center gap-6 text-lg mx-[5%]">
+      <nav className="w-[100%] h-[10vh] text-zinc-300 flex items-center gap-6 text-lg">
         <i
           className="ri-arrow-left-line hover:text-blue-400 text-2xl font-semibold text-zinc-200 mr-5 "
           onClick={() => navigate(-1)}
@@ -76,13 +161,24 @@ const TvDetails = () => {
         >
           imdb
         </a>
-        <Link to="/" className="ml-[70%] hover:text-white text-[18px]">
+        <Link to="/" className="ml-[83%] hover:text-white text-[18px]">
           Home
         </Link>
       </nav>
 
       {/* Part 2 */}
       <div className="w-full flex mx-[5%]">
+        {/* Part 3 */}
+        <div className=" w-[30vw] h-[4vh] flex justify-center rotate-90 mt-[26vh] absolute right-[76.5vw]">
+          {/* <h3 className="text-white text-2xl font-medium bg-black w-[25vh] rounded text-center">
+            Available Platform
+          </h3> */}
+          <img
+            className="h-[7vh] w-[7vw] object-contain rounded"
+            src={`https://image.tmdb.org/t/p/w500/${logo_path}`}
+            alt=""
+          />
+        </div>
         <img
           className="h-[55vh] object-contain shadow-[8px_17px_18px_2px] mt-2"
           src={`https://image.tmdb.org/t/p/w500/${info.detail.poster_path}`}
@@ -118,55 +214,87 @@ const TvDetails = () => {
             {info.detail.tagline}
           </h1>
           <h1 className="text-2xl mt-2 mb-1 text-white">Overview</h1>
-          <p className="text-white leading-5">
+          <p className="text-white leading-5 w-[80%]">
             {truncateOverview(info.detail.overview)}
           </p>
-          <Link
-            to={`${pathname}/trailer`}
-            className="bg-blue-400 text-white font-medium w-[140px] h-[35px] flex items-center 
-            justify-center rounded-3xl mt-3"
-          >
-            <span>
-              <i className="ri-play-fill mr-2"></i>
-            </span>
-            Play Trailer
-          </Link>
+          {/* {/buttons} */}
+          <div className="flex gap-2">
+            <Link
+              to={`${pathname}/trailer`}
+              className="text-black bg-white font-medium px-3 h-[35px] flex items-center 
+              justify-center rounded-xl mt-3 hover:bg-zinc-300"
+            >
+              <span>
+                <i className="ri-play-fill mr-1"></i>
+              </span>
+              Play Trailer
+            </Link>
+            <button
+              onClick={addToFavorites}
+              className="text-white font-medium px-3 h-[35px] flex items-center 
+              justify-center rounded-xl mt-3"
+            >
+              <span className="mr-1">
+                {isTvFavorited ? <MdFavorite /> : <MdFavoriteBorder />}
+              </span>
+              {isTvFavorited ? "Unfavorite" : "Favorite"}
+            </button>
+            <button
+              onClick={addToWatchlist}
+              className="text-white font-medium px-3 h-[35px] flex items-center 
+              justify-center rounded-xl mt-3 "
+            >
+              <span className="mr-1">
+                {isTvWatchlisted ? <CgRemove /> : <MdPlusOne />}
+              </span>
+              Watchlist
+            </button>
+          </div>
+          {/* cast */}
+          <h1 className="text-white text-2xl italic mt-3">Top Cast</h1>
+          <div className="flex gap-5">
+            {data &&
+              data.credits.cast
+                .map(
+                  (character, i) =>
+                    character.profile_path && (
+                      <div key={i} className="flex flex-col">
+                        <img
+                          className="w-[120px] h-[160px] bg-red-100 rounded mt-4 object-cover"
+                          src={`https://image.tmdb.org/t/p/w500/${character.profile_path}`}
+                          alt=""
+                        />
+                        <h1 className="text-white">{character?.name}</h1>
+                        <h1 className="text-zinc-400">
+                          {character.character.split("/")[0]}
+                        </h1>
+                      </div>
+                    )
+                )
+                .slice(0, 6)}
+          </div>
         </div>
-      </div>
-
-      {/* Part 3 */}
-      <div className="mt-5 relative mb-5 mx-[5%]">
-        {info.watchproviders &&
-          Object.values(info.watchproviders.results).flatMap((provider) =>
-            ["flatrate", "ads"].flatMap((type) =>
-              provider[type]
-                ? provider[type].map((w) => (
-                    <img
-                      className="h-[7vh] w-[7vw] object-contain rounded-lg absolute left-[-2%] z-10"
-                      src={`https://image.tmdb.org/t/p/w500/${w.logo_path}`}
-                      alt=""
-                      key={w.provider_id}
-                    />
-                  ))
-                : []
-            )
-          )}
-        <h3 className="text-white pl-[5%] pt-[1%] font-medium">
-          Available Platform
-        </h3>
       </div>
 
       {/* Part 4 */}
       <hr className="border-none h-[1px] bg-zinc-400 mt-1" />
 
-      <h1 className="mt-3 text-2xl font-semibold text-white">Seasons</h1>
+      <h1 className="mt-3 text-2xl font-semibold text-white">
+        <span className="text-white mr-2">{data.number_of_seasons}</span>
+        {data.number_of_seasons > 1 ? "Seasons" : "Season"}
+      </h1>
+
       {filteredSeasons.length > 0 && (
         <div className="w-[100%] mb-5 p-2 text-white whitespace-nowrap overflow-x-auto">
           {filteredSeasons.map((s, i) => (
             <div key={i} className="inline-block mr-2">
               <img
-                className="h-[40vh] object-cover"
-                src={`https://image.tmdb.org/t/p/w500/${s.poster_path}`}
+                className="h-[35vh] object-cover"
+                src={
+                  s.poster_path
+                    ? `https://image.tmdb.org/t/p/w500/${s.poster_path}`
+                    : noimage // Fallback image if poster_path is not available
+                }
                 alt={s.name || s.title || s.original_name || s.original_title}
               />
             </div>

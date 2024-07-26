@@ -8,6 +8,8 @@ import Trailer from "./components/Templates/Trailer";
 import Trending from "./components/Trending";
 import TvDetails from "./components/TvDetails";
 import TvShows from "./components/TvShows";
+import GenrePage from "./components/GenrePage";
+import Profile from "./components/Templates/Profile";
 
 const App = () => {
   return (
@@ -22,6 +24,8 @@ const App = () => {
         <Route path="/tv" element={<TvShows />} />
         <Route path="/tv/details/:id" element={<TvDetails />} />
         <Route path="/tv/details/:id/trailer" element={<Trailer />} />
+        <Route path="/genre/:genreName" element={<GenrePage />} />
+        <Route path="/profile/:id" element={<Profile />} />
       </Routes>
     </div>
   );

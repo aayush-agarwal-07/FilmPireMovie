@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Link,
@@ -7,21 +7,88 @@ import {
   useNavigate,
   useParams,
 } from "react-router-dom";
+import axios from "axios";
 import { asyncloadmovie, removemovie } from "../actions/movieAction";
 import HorizontalCards from "./Templates/HorizontalCards";
 import Loading from "./Templates/Loading";
+import { useGetMovieQuery, useGetListQuery } from "../services/TMDB";
+import { MdFavorite, MdFavoriteBorder, MdPlusOne } from "react-icons/md";
+import { CgRemove } from "react-icons/cg";
+import { userSelector } from "../reducers/auth";
 
 const MovieDetails = () => {
   const navigate = useNavigate();
+  const { user } = useSelector(userSelector);
   const { pathname } = useLocation();
   const { id } = useParams();
   const dispatch = useDispatch();
   const { info } = useSelector((state) => state.movie);
+  const { data } = useGetMovieQuery(id);
+
+  const { data: favoriteMovies } = useGetListQuery({
+    listName: "favorite/movies",
+    accountId: user.id,
+    sessionId: localStorage.getItem("session_id"),
+    page: 1,
+  });
+  const { data: watchlistMovies } = useGetListQuery({
+    listName: "watchlist/movies",
+    accountId: user.id,
+    sessionId: localStorage.getItem("session_id"),
+    page: 1,
+  });
+
+  const [isMovieFavorited, setIsMovieFavorited] = useState(false);
+  const [isMovieWatchlisted, setIsMovieWatchlisted] = useState(false);
+
+  useEffect(() => {
+    setIsMovieFavorited(
+      !!favoriteMovies?.results?.find((movie) => movie?.id === data?.id)
+    );
+  }, [favoriteMovies, data]);
+
+  useEffect(() => {
+    setIsMovieWatchlisted(
+      !!watchlistMovies?.results?.find((movie) => movie?.id === data?.id)
+    );
+  }, [watchlistMovies, data]);
+
+  const addToFavorites = async () => {
+    await axios.post(
+      `https://api.themoviedb.org/3/account/${user.id}/favorite?api_key=${
+        import.meta.env.VITE_TMDB_KEY
+      }&session_id=${localStorage.getItem("session_id")}`,
+      {
+        media_type: "movie",
+        media_id: id,
+        favorite: !isMovieFavorited,
+      }
+    );
+
+    setIsMovieFavorited((prev) => !prev);
+  };
+
+  const addToWatchlist = async () => {
+    await axios.post(
+      `https://api.themoviedb.org/3/account/${user.id}/watchlist?api_key=${
+        import.meta.env.VITE_TMDB_KEY
+      }&session_id=${localStorage.getItem("session_id")}`,
+      {
+        media_type: "movie",
+        media_id: id,
+        watchlist: !isMovieWatchlisted,
+      }
+    );
+
+    setIsMovieWatchlisted((prev) => !prev);
+  };
+
   const truncateOverview = (overview) => {
     if (overview.length <= 400) {
       return overview;
     }
     // Find the last period (.) before or at 400 characters
+
     const truncated = overview.slice(0, 400);
     const lastPeriodIndex = truncated.lastIndexOf(".");
     if (lastPeriodIndex !== -1) {
@@ -36,6 +103,26 @@ const MovieDetails = () => {
     return () => dispatch(removemovie());
   }, [dispatch, id]);
 
+  const getLogoPath = () => {
+    const watchProviders = info?.watchproviders?.results?.IN;
+
+    if (watchProviders?.flatrate?.length > 0) {
+      return watchProviders.flatrate[0].logo_path;
+    } else if (watchProviders?.buy?.length > 0) {
+      return watchProviders.buy[0].logo_path;
+    } else if (watchProviders?.ads?.length > 0) {
+      return watchProviders.ads[0].logo_path;
+    } else if (watchProviders?.rent?.length > 0) {
+      return watchProviders.rent[0].logo_path;
+    } else {
+      // Handle case where none of the above are present
+      return null; // or an appropriate fallback, e.g., a default image URL
+    }
+  };
+
+  // Usage example
+  const logo_path = getLogoPath();
+
   return info ? (
     <div
       style={{
@@ -46,7 +133,7 @@ const MovieDetails = () => {
       className="w-screen h-[149vh] px-[5%] relative overflow-x-hidden"
     >
       {/* Part 1 */}
-      <nav className="w-[100%] h-[10vh] text-zinc-300 flex items-center gap-6 text-lg mx-[5%]">
+      <nav className="w-[100%] h-[10vh] text-zinc-300 flex items-center gap-6 text-lg">
         <i
           className="ri-arrow-left-line hover:text-blue-400 text-2xl font-semibold text-zinc-200 mr-5 cursor-pointer"
           onClick={() => navigate(-1)}
@@ -69,18 +156,32 @@ const MovieDetails = () => {
         >
           imdb
         </a>
-        <Link to="/" className="ml-[70%] hover:text-white text-[18px]">
+        <Link to="/" className="ml-[83%] hover:text-white text-[18px]">
           Home
         </Link>
       </nav>
 
       {/* Part 2 */}
-      <div className="w-full flex mx-[5%]">
+      <div className="w-full flex relative mx-[7%]">
+        {/* Part 3 */}
+        {logo_path && (
+          <div className=" w-[30vw] h-[4vh] flex justify-center rotate-90 mt-[26vh] absolute right-[76.5vw]">
+            <h3 className="text-white text-2xl font-medium bg-black w-[25vh] rounded text-center">
+              Available Platform
+            </h3>
+            <img
+              className="h-[4vh] w-[4vw] object-contain rounded"
+              src={`https://image.tmdb.org/t/p/w500/${logo_path}`}
+              alt=""
+            />
+          </div>
+        )}
         <img
-          className="h-[55vh] object-contain shadow-[8px_17px_18px_2px] mt-2"
+          className="h-[55vh] object-contain shadow-[8px_17px_18px_2px] mt-2 w-"
           src={`https://image.tmdb.org/t/p/w500/${info.detail.poster_path}`}
           alt=""
         />
+
         <div className="content mr-10 w-[67%] ml-[5%]">
           <h1 className="text-white text-4xl font-black">
             {info.detail.name ||
@@ -116,42 +217,64 @@ const MovieDetails = () => {
             {info.detail.tagline}
           </h1>
           <h1 className="text-2xl mt-2 mb-1 text-white">Overview</h1>
-          <p className="text-white leading-5">
+          <p className="text-white leading-5 w-[85%]">
             {truncateOverview(info.detail.overview)}
           </p>
-          <Link
-            to={`${pathname}/trailer`}
-            className="bg-blue-500 text-white font-semibold w-[140px] h-[35px] flex items-center 
-            justify-center rounded-3xl mt-3"
-          >
-            <span>
-              <i className="ri-play-fill mr-2"></i>
-            </span>
-            <span className="font-semibold">Play Trailer</span>
-          </Link>
+          <div className="flex gap-2">
+            <Link
+              to={`${pathname}/trailer`}
+              className="text-black bg-white font-medium px-3 h-[35px] flex items-center 
+              justify-center rounded-xl mt-3 hover:bg-zinc-300"
+            >
+              <span>
+                <i className="ri-play-fill mr-1"></i>
+              </span>
+              Play Trailer
+            </Link>
+            <button
+              onClick={addToFavorites}
+              className="text-white font-medium px-3 h-[35px] flex items-center 
+        justify-center rounded-xl mt-3 w-[6vw] ml-2"
+            >
+              <span className="mr-1">
+                {isMovieFavorited ? <MdFavorite /> : <MdFavoriteBorder />}
+              </span>
+              {isMovieFavorited ? "Unfavorite" : "Favorite"}
+            </button>
+            <button
+              onClick={addToWatchlist}
+              className="text-white font-medium px-3 h-[35px] flex items-center 
+        justify-center rounded-xl mt-3 "
+            >
+              <span className="mr-1">
+                {isMovieWatchlisted ? <CgRemove /> : <MdPlusOne />}
+              </span>
+              Watchlist
+            </button>
+          </div>
+          <h1 className="text-white text-2xl italic mt-3">Top Cast</h1>
+          <div className="flex gap-3">
+            {data &&
+              data.credits.cast
+                .map(
+                  (character, i) =>
+                    character.profile_path && (
+                      <div key={i} className="flex flex-col">
+                        <img
+                          className="w-[130px] h-[160px] bg-red-100 rounded mt-4 object-cover"
+                          src={`https://image.tmdb.org/t/p/w500/${character.profile_path}`}
+                          alt=""
+                        />
+                        <h1 className="text-white">{character?.name}</h1>
+                        <h1 className="text-zinc-400">
+                          {character.character.split("/")[0]}
+                        </h1>
+                      </div>
+                    )
+                )
+                .slice(0, 6)}
+          </div>
         </div>
-      </div>
-
-      {/* Part 3 */}
-      <div className="mt-5 relative mb-5 mx-[5%]">
-        {info.watchproviders &&
-          Object.values(info.watchproviders.results).flatMap((provider) =>
-            ["flatrate", "rent", "ads", "buy"].flatMap((type) =>
-              provider[type]
-                ? provider[type].map((w) => (
-                    <img
-                      className="h-[7vh] w-[7vw] object-contain rounded absolute left-[-2%] z-10"
-                      src={`https://image.tmdb.org/t/p/w500/${w.logo_path}`}
-                      alt=""
-                      key={w.provider_id}
-                    />
-                  ))
-                : []
-            )
-          )}
-        <h3 className="text-white pl-[5%] pt-[1%] font-medium">
-          Available Platform
-        </h3>
       </div>
 
       {/* Part 4 */}

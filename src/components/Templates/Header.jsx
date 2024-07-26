@@ -9,7 +9,7 @@ const Header = ({ data }) => {
     <div
       style={{
         backgroundImage: `linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0)), ${imageUrl}`,
-        backgroundPosition: "center",
+        backgroundPosition: "top",
         backgroundSize: "cover",
       }}
       className="h-[550px] w-full rounded flex flex-col justify-end p-[3%]"
@@ -17,8 +17,8 @@ const Header = ({ data }) => {
       <h1 className="text-3xl text-white font-bold">
         {data.name || data.title || data.original_name || data.original_title}
       </h1>
-      <p className="w-[60%] font-normal text-white">
-        {data.overview.slice(0, 200)}
+      <p className="w-[50%] font-normal text-white">
+        {data.overview.slice(0, 400)}
         <span className="hover:text-blue-500 cursor-pointer">
           <Link to={`/${data.media_type}/details/${data.id}}`}>...more</Link>
         </span>

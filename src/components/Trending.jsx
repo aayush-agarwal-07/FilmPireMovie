@@ -6,6 +6,7 @@ import Cards from "./Templates/Cards";
 import Dropdown from "./Templates/Dropdown";
 import Loading from "./Templates/Loading";
 import Topnav from "./Templates/Topnav";
+import gsap from "gsap";
 
 const Trending = () => {
   const [data, setData] = useState([]);
@@ -31,6 +32,11 @@ const Trending = () => {
       console.log("Error fetching trending data: ", error);
     }
   };
+
+  useEffect(() => {
+    // Animate the <hr> element with a class of 'animated-hr'
+    gsap.fromTo('.animated-hr', { width: '0%' }, { width: '100%', duration: 1 });
+  }, []);
 
   const refreshHandler = () => {
     setPage(1);
@@ -79,7 +85,7 @@ const Trending = () => {
         <h1 className="text-2xl font-semibold text-zinc-400 absolute top-[52px] left-[7%]">
           Trending
         </h1>
-        <div className="w-[68%] ml-[10%] z-[10%]">
+        <div className="w-[68%] ml-[5%] mr-[7%] z-[1000000]">
           <Topnav />
         </div>
         <Dropdown
@@ -93,6 +99,8 @@ const Trending = () => {
           func={handleTimeChange}
         />
       </div>
+      <hr className="animated-hr w-full h-[1px] border-none bg-blue-400 mt-2" />
+
       <InfiniteScroll
         dataLength={data.length}
         next={getTrending}

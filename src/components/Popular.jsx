@@ -72,7 +72,7 @@ const Popular = () => {
         <h1 className="text-2xl font-semibold text-zinc-400 absolute top-[52px] left-[7%]">
           Popular
         </h1>
-        <div className="w-[80%] ml-[7%] z-[10%]">
+        <div className="w-[70%] ml-[6.5%] mr-[12%] z-[1000000]">
           <Topnav />
         </div>
         <Dropdown
