@@ -132,7 +132,7 @@ const MovieDetails = () => {
       }}
       className="w-screen h-[149vh] px-[5%] relative overflow-x-hidden"
     >
-      {/* Part 1 */}
+      {/* Part 1 nav*/}
       <nav className="w-[100%] h-[10vh] text-zinc-300 flex items-center gap-6 text-lg">
         <i
           className="ri-arrow-left-line hover:text-blue-400 text-2xl font-semibold text-zinc-200 mr-5 cursor-pointer"
@@ -162,26 +162,40 @@ const MovieDetails = () => {
       </nav>
 
       {/* Part 2 */}
-      <div className="w-full flex relative mx-[7%]">
-        {/* Part 3 */}
+      <div className="w-full h-[60vh] flex relative mx-[7%]">
+
+        {/* Part 2a Streaming Partner */}
         {logo_path && (
-          <div className=" w-[30vw] h-[4vh] flex justify-center rotate-90 mt-[26vh] absolute right-[76.5vw]">
-            <h3 className="text-white text-2xl font-medium bg-black w-[25vh] rounded text-center">
+          <div className=" w-[30vw] h-[4vh] flex justify-center mt-[26vh] absolute right-[74.5vw]">
+            {/* <h3 className="text-white text-2xl font-medium bg-black w-[25vh] rounded text-center">
               Available Platform
-            </h3>
-            <img
+            </h3> */}
+            <span
+              className="rounded-full 
+            bg-white w-[9vh] h-[9vh] flex justify-center items-center"
+            >
+              <img
+              className="h-[6vh] w-[6vw] object-contain"
+              src={`https://image.tmdb.org/t/p/w500/${logo_path}`}
+              alt=""
+            /> 
+            </span>
+            {/* <img
               className="h-[4vh] w-[4vw] object-contain rounded"
               src={`https://image.tmdb.org/t/p/w500/${logo_path}`}
               alt=""
-            />
+            /> */}
           </div>
         )}
+
+        {/* Part 2b Poster */}
         <img
           className="h-[55vh] object-contain shadow-[8px_17px_18px_2px] mt-2 w-"
           src={`https://image.tmdb.org/t/p/w500/${info.detail.poster_path}`}
           alt=""
         />
 
+        {/* Part 2c Details */}
         <div className="content mr-10 w-[67%] ml-[5%]">
           <h1 className="text-white text-4xl font-black">
             {info.detail.name ||
@@ -267,7 +281,7 @@ const MovieDetails = () => {
                         />
                         <h1 className="text-white">{character?.name}</h1>
                         <h1 className="text-zinc-400">
-                          {character.character.split("/")[0]}
+                          {character.character.split("/")[0].split(' ').slice(0, 2).join(' ')}
                         </h1>
                       </div>
                     )
@@ -277,16 +291,12 @@ const MovieDetails = () => {
         </div>
       </div>
 
-      {/* Part 4 */}
+      {/* Part 3 Recommendations and Similar Stuff */}
       <hr className="border-none h-[1px] bg-zinc-400 mt-1" />
       <h1 className="mt-3 text-2xl font-semibold text-white">
         Recommendations and Similar Stuff
       </h1>
-      <HorizontalCards
-        data={
-          info.recommendations.length > 0 ? info.recommendations : info.similar
-        }
-      />
+      <HorizontalCards data={info.recommendations.length > 0 ? info.recommendations : info.similar}/>
       <Outlet />
     </div>
   ) : (

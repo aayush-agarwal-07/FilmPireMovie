@@ -30,8 +30,8 @@ const GenrePage = () => {
   ];
 
   const getGenre = async () => {
-    const findGenre = genres.find(
-      (genre) => genre.name.toLowerCase().includes(genreName.toLowerCase())
+    const findGenre = genres.find((genre) =>
+      genre.name.toLowerCase().includes(genreName.toLowerCase())
     );
     const findGenreId = findGenre ? findGenre.id : null;
 
@@ -42,16 +42,15 @@ const GenrePage = () => {
         requests.push(axios.get(`/discover/${category}?page=${page + i}`));
       }
 
-    
-
       // Fetch all pages concurrently
       const responses = await Promise.all(requests);
       const allResults = responses.flatMap((response) => response.data.results);
       console.log(allResults);
       // Filter results based on genre
-      const filteredResults = allResults.filter((item) => 
-        Array.isArray(item.genre_ids) &&
-        item.genre_ids.find((genreId) => genreId === findGenreId)
+      const filteredResults = allResults.filter(
+        (item) =>
+          Array.isArray(item.genre_ids) &&
+          item.genre_ids.find((genreId) => genreId === findGenreId)
       );
 
       // Update state
@@ -60,7 +59,6 @@ const GenrePage = () => {
       // Update page number for the next fetch
       setPage((prevPage) => prevPage + numPagesToFetch);
       setHasMore(allResults.length > 0); // Continue fetching if there's data
-
     } catch (error) {
       console.error("Failed to fetch genre data:", error);
     }
@@ -102,14 +100,16 @@ const GenrePage = () => {
 
   return (
     <div className="w-screen h-screen pt-8 relative">
-      <div className="flex items-center px-10 z-20">
-        <Link to="/">
-          <i className="ri-arrow-left-line hover:text-blue-400 text-2xl font-semibold text-white mr-5"></i>
-        </Link>
-        <h1 className="text-2xl font-semibold text-zinc-400 absolute top-[48px] left-[7%] capitalize">
+      <div className="w-[100%] h-14vh flex items-center justify-between px-10 z-20 mb-7">
+        <div className="flex">
+          <Link to="/">
+            <i className="ri-arrow-left-line hover:text-blue-400 text-2xl font-semibold text-white mr-5"></i>
+          </Link>
+          <h1 className="text-2xl font-semibold text-zinc-400 capitalize">
           {genreName}
         </h1>
-        <div className="w-[80%] ml-[7%] z-10">
+        </div>
+        <div className="w-[84%] ml-[8%] mr-[10%] z-[1000000] absolute left-0 ">
           <Topnav />
         </div>
         <Dropdown
@@ -118,6 +118,9 @@ const GenrePage = () => {
           func={handleCategoryChange}
         />
       </div>
+
+      <hr className="animated-hr w-full h-[1px] border-none bg-blue-400 mt-2" />
+
       <InfiniteScroll
         dataLength={genre.length}
         next={getGenre}

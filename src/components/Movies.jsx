@@ -66,14 +66,16 @@ const Movies = () => {
 
   return (
     <div className="w-screen h-screen pt-[2%] relative">
-      <div className="w-[100%] h-10vh flex items-center px-10 z-20">
-        <Link to="/">
-          <i className="ri-arrow-left-line hover:hover:text-blue-400 text-2xl font-semibold text-white mr-5"></i>
-        </Link>
-        <h1 className="text-2xl font-semibold text-zinc-400 absolute top-[52px] left-[7.5%]">
-          Movie<small className="text-sm ml-[2px]">({category})</small>
-        </h1>
-        <div className="w-[70%] ml-[6.5%] mr-[12%] z-[1000000]">
+      <div className="w-[100%] h-14vh flex items-center justify-between px-10 z-20 mb-7">
+        <div className="flex">
+          <Link to="/">
+            <i className="ri-arrow-left-line hover:text-blue-400 text-2xl font-semibold text-white mr-5"></i>
+          </Link>
+          <h1 className="text-2xl font-semibold text-zinc-400">
+            Movie<small className="text-sm ml-[2px]">({category})</small>
+          </h1>
+        </div>
+        <div className="w-[84%] ml-[8%] mr-[10%] z-[1000000] absolute left-0 ">
           <Topnav />
         </div>
         <Dropdown
@@ -82,6 +84,9 @@ const Movies = () => {
           func={handleCategoryChange}
         />
       </div>
+
+      <hr className="animated-hr w-full h-[1px] border-none bg-blue-400 mt-2" />
+
       <InfiniteScroll
         dataLength={movies.length}
         next={getMovies}

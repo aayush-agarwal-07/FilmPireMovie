@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import noimage from "../../assets/no-image.jpg";
 import axios from "../../utils/axios";
-import { MdAccountCircle } from "react-icons/md";
+
 import { setUser, userSelector } from "../../reducers/auth";
-import { useSelector, useDispatch } from "react-redux";
+import {useDispatch } from "react-redux";
 import { fetchToken, createSessionId, moviesApi } from "../../utils";
-import { RxAvatar } from "react-icons/rx";
+
 
 const Topnav = () => {
-  const { isAuthenticated, user } = useSelector(userSelector);
+
   const [query, setQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const navigate = useNavigate(); // Initialize useNavigate
@@ -79,24 +79,7 @@ const Topnav = () => {
           ></i>
         )}
       </div>
-      <div className="absolute right-[3%]">
-        {!isAuthenticated ? (
-          <button
-            onClick={handleLogin}
-            className="text-white hover:text-blue-300 hover:no-underline flex items-center"
-          >
-            Login &nbsp; <MdAccountCircle />
-          </button>
-        ) : (
-          <Link
-            to={`/profile/${user.id}`}
-            className=" text-white hover:text-blue-300 hover:no-underline flex items-center"
-          >
-            <span className="mr-2">My Movies</span>
-            <div className="text-xl"><RxAvatar /></div>
-          </Link>
-        )}
-      </div>
+     
       {query.length > 0 && (
         <div className="absolute top-[100%] left-[26.5%] bg-zinc-200 w-[40vw] max-h-[50vh] overflow-auto rounded shadow-lg z-[1500]">
           {/* Adjust z-index to ensure it appears above other elements */}
