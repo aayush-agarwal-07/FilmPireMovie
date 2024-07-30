@@ -6,6 +6,7 @@ import Dropdown from "./Templates/Dropdown";
 import Topnav from "./Templates/Topnav";
 import Loading from "./Templates/Loading";
 import InfiniteScroll from "react-infinite-scroll-component";
+import gsap from "gsap";
 
 const TvShows = () => {
   const [tv, setTv] = useState([]);
@@ -29,6 +30,10 @@ const TvShows = () => {
       console.log("Error fetching TV data: ", error);
     }
   };
+  useEffect(() => {
+    // Animate the <hr> element with a class of 'animated-hr'
+    gsap.fromTo('.animated-hr', { width: '0%' }, { width: '100%', duration: 1 });
+  }, []);
 
   useEffect(() => {
     refreshHandler();
@@ -71,7 +76,7 @@ const TvShows = () => {
           <Link to="/">
             <i className="ri-arrow-left-line hover:text-blue-400 text-2xl font-semibold text-white mr-5"></i>
           </Link>
-          <h1 className="text-2xl font-semibold text-zinc-400 absolute top-[52px]  left-[7%]">
+          <h1 className="text-2xl font-semibold text-zinc-400">
           TvShows<small className="text-sm ml-[2px]">({category})</small>
         </h1>
         </div>

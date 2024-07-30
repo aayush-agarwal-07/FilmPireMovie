@@ -6,6 +6,7 @@ import Cards from "./Templates/Cards";
 import Dropdown from "./Templates/Dropdown";
 import Loading from "./Templates/Loading";
 import Topnav from "./Templates/Topnav";
+import gsap from "gsap";
 
 const Popular = () => {
   const [popular, setPopular] = useState([]);
@@ -28,6 +29,12 @@ const Popular = () => {
       console.log("Error fetching popular data: ", error);
     }
   };
+
+  useEffect(() => {
+    // Animate the <hr> element with a class of 'animated-hr'
+    gsap.fromTo('.animated-hr', { width: '0%' }, { width: '100%', duration: 1 });
+  }, []);
+
 
   const refreshHandler = () => {
     setPage(1);
