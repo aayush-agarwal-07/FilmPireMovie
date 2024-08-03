@@ -60,29 +60,26 @@ const Home = () => {
 
   return isLoading ? (
     <Loading />
-  ) : (
-    wallpaper && trending ? (
-      <>
+  ) : wallpaper && trending ? (
+    <>
         <Sidenav />
-        <div className="w-[84%] h-full overflow-x-auto">
-          <Topnav />
-          <Header data={wallpaper} />
-          <div className="w-full h-[10vh] flex justify-between items-center py-7 z-10">
-            <h1 className="text-2xl font-medium text-white pl-[1%] ">Trending</h1>
-            <Dropdown
-              title="Filter"
-              options={["movie", "tv", "all"]}
-              func={handleCategoryChange} // Pass handler function
-            />
-          </div>
-          <HorizontalCards data={trending} />
+      <div className="w-[84%] h-full overflow-x-auto">
+        <Topnav />
+        <Header data={wallpaper} />
+        <div className="w-full h-[10vh] flex justify-between items-center py-7 z-10">
+          <h1 className="text-2xl font-medium text-white pl-[1%] ">Trending</h1>
+          <Dropdown
+            title="Filter"
+            options={["movie", "tv", "all"]}
+            func={handleCategoryChange} // Pass handler function
+          />
         </div>
-      </>
-    ) : (
-      <Loading />
-    )
+        <HorizontalCards data={trending} />
+      </div>
+    </>
+  ) : (
+    <Loading />
   );
 };
-
 
 export default Home;
