@@ -38,9 +38,9 @@ const Sidenav = ({ isVisible, toggleVisibility, width }) => {
 
   return (
     <div
-      className={`fixed top-0 left-0 h-screen bg-[#1F1E24] border-r-2 border-zinc-100 p-2 transition-transform transform ${
+      className={`fixed top-0 left-0 h-full bg-[#1F1E24] border-r-1 border-zinc-100 p-2 transition-transform transform ${
         isVisible ? "translate-x-0" : "-translate-x-full"
-      } sm:translate-x-0 z-[1001]`}
+      } sm:translate-x-0 z-[1001] overflow-y-auto`}
       style={{ width: `${width}px` }}
     >
       <Link to="/">

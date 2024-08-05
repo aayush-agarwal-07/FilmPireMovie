@@ -86,7 +86,7 @@ const Topnav = () => {
           ></i>
         )}
         <div
-          className="border cursor-pointer border-black rounded-md px-2 py-1 block sm:hidden text-white"
+          className="border cursor-pointer border-black rounded-md relative left-[19vw] bg-white px-2 py-1 block sm:hidden text-black"
           onClick={toggleSidenav}
         >
           <CiMenuFries />
