@@ -35,7 +35,11 @@ const Trending = () => {
 
   useEffect(() => {
     // Animate the <hr> element with a class of 'animated-hr'
-    gsap.fromTo('.animated-hr', { width: '0%' }, { width: '100%', duration: 1 });
+    gsap.fromTo(
+      ".animated-hr",
+      { width: "0%" },
+      { width: "100%", duration: 1 }
+    );
   }, []);
 
   const refreshHandler = () => {
@@ -77,33 +81,26 @@ const Trending = () => {
   }, []);
 
   return (
-    <div className="w-screen pt-[2%] relative">
-      <div className="w-[100%] h-14vh flex items-center justify-between px-10 z-20 mb-7">
-        <div className="flex">
-        <Link to="/">
-          <i className="ri-arrow-left-line hover:text-blue-400 text-2xl font-semibold text-white mr-5"></i>
-        </Link>
-        <h1 className="text-2xl font-semibold text-zinc-400 ">
-          Trending
-        </h1>
+    <div className="w-[100%] sm:w-[84%] sm:left-[16%] pt-[2%] relative">
+      <div className="w-[100%] flex items-center justify-between px-10 z-20">
+        <div className="flex ">
+          <Link to="/">
+            <i className="ri-arrow-left-line hover:text-blue-400 text-2xl font-semibold text-white mr-5 block sm:hidden"></i>
+          </Link>
+          <h1 className="text-3xl font-semibold text-zinc-400 -mt-1">Trending</h1>
         </div>
-        <div className="w-[84%] ml-[8%] mr-[10%] z-[1000000] absolute left-0 ">
+        <div className="z-[10000]">
           <Topnav />
         </div>
-        <div className="flex">
+        <div className="flex fixed z-[10000] right-10 top-[8.5]">
           <Dropdown
             title="Filter"
             options={["movie", "tv", "all"]}
             func={handleCategoryChange}
           />
-          <Dropdown
-            title="Filter"
-            options={["week", "day"]}
-            func={handleTimeChange}
-          />
         </div>
       </div>
-      <hr className="animated-hr w-full h-[1px] border-none bg-blue-400 mt-2" />
+      <hr className="animated-hr w-full h-[1px] border-none bg-blue-400 mt-7" />
 
       <InfiniteScroll
         dataLength={data.length}

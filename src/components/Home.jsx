@@ -6,6 +6,7 @@ import HorizontalCards from "./Templates/HorizontalCards";
 import Loading from "./Templates/Loading";
 import Sidenav from "./Templates/Sidenav";
 import Topnav from "./Templates/Topnav";
+import { useLocation } from 'react-router-dom';
 
 const Home = () => {
   document.title = "FILMPIRE | Homepage";
@@ -14,12 +15,13 @@ const Home = () => {
   const [category, setCategory] = useState("tv");
   const [isLoading, setIsLoading] = useState(true);
 
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
+
   useEffect(() => {
-    // Set a timeout to delay hiding the loading component
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 900); // 1500ms = 1.5 seconds
-    // Clean up the timer if the component unmounts
+    }, 900);
     return () => clearTimeout(timer);
   }, []);
 
@@ -54,16 +56,15 @@ const Home = () => {
   }, [category]);
 
   const handleCategoryChange = (value) => {
-    setCategory(value); // Update category state
+    setCategory(value);
   };
-  console.log("trending", trending);
 
   return isLoading ? (
     <Loading />
   ) : wallpaper && trending ? (
     <>
-        <Sidenav />
-      <div className="w-[84%] h-full overflow-x-auto">
+      {isHomePage && <Sidenav width={285} />}
+      <div className="w-[100%] sm:w-[84%] sm:relative sm:left-[16%] h-full overflow-x-auto">
         <Topnav />
         <Header data={wallpaper} />
         <div className="w-full h-[10vh] flex justify-between items-center py-7 z-10">
@@ -71,7 +72,7 @@ const Home = () => {
           <Dropdown
             title="Filter"
             options={["movie", "tv", "all"]}
-            func={handleCategoryChange} // Pass handler function
+            func={handleCategoryChange}
           />
         </div>
         <HorizontalCards data={trending} />

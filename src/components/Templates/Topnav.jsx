@@ -4,16 +4,21 @@ import noimage from "../../assets/no-image.jpg";
 import axios from "../../utils/axios";
 
 import { setUser, userSelector } from "../../reducers/auth";
-import {useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { fetchToken, createSessionId, moviesApi } from "../../utils";
-
+import { CiMenuFries } from "react-icons/ci";
+import Sidenav from "./Sidenav";
 
 const Topnav = () => {
-
+  const [show, setShow] = useState(false);
   const [query, setQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const navigate = useNavigate(); // Initialize useNavigate
   const dispatch = useDispatch(); // Initialize useDispatch
+
+  const toggleSidenav = () => {
+    setShow((prev) => !prev);
+  };
 
   const GetSearches = async () => {
     try {
@@ -61,25 +66,40 @@ const Topnav = () => {
   }, [dispatch]);
 
   return (
-    <div className="relative z-50 w-full flex items-center justify-center">
+    <div
+      className={`fixed top-0 left-0 h-[5vh] flex justify-center items-center w-full border-r-2 border-zinc-900 p-2 z-10 sm:h-[10vh] sm:left-[15%] sm:w-[85%]`}
+    >
       {/* Ensure this has higher z-index than other elements */}
-      <div className="w-[66%] flex items-center justify-center relative mr-[4.5%]">
-        <i className="ri-search-line text-white text-xl"></i>
+      <div className="w-[60%] flex items-center justify-center relative bg-transparent rounded-full bg-zinc-300">
+        <i className="ri-search-line text-black text-xl"></i>
         <input
           type="text"
           placeholder="Search Anything..."
-          className="w-[70%] border-none bg-transparent outline-none rounded text-zince-200 mx-10 p-5 text-white relative z-[1000]"
+          className="w-[70%] border-none bg-transparent outline-none rounded text-zinc-900 mx-10 p-3 relative z-[1000]"
           onChange={(e) => setQuery(e.target.value)}
           value={query}
         />
         {query.length > 0 && (
           <i
-            className="ri-close-line text-white text-2xl cursor-pointer hover:text-blue-300 absolute right-[9.5%]"
+            className="ri-close-line  text-2xl cursor-pointer hover:text-blue-600 absolute right-[9.5%]"
             onClick={() => setQuery("")}
           ></i>
         )}
+        <div
+          className="border cursor-pointer border-black rounded-md px-2 py-1 block sm:hidden text-white"
+          onClick={toggleSidenav}
+        >
+          <CiMenuFries />
+        </div>
       </div>
-     
+      <Sidenav isVisible={show} toggleVisibility={toggleSidenav} width={285} />
+      {show && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40"
+          onClick={toggleSidenav}
+        />
+      )}
+
       {query.length > 0 && (
         <div className="absolute top-[100%] left-[26.5%] bg-zinc-200 w-[40vw] max-h-[50vh] overflow-auto rounded shadow-lg z-[1500]">
           {/* Adjust z-index to ensure it appears above other elements */}

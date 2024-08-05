@@ -28,8 +28,7 @@ const List = [
   },
 ];
 
-const Sidenav = () => {
-  
+const Sidenav = ({ isVisible, toggleVisibility, width }) => {
   const { info } = useSelector((state) => state.tv);
   const { genreIdOrCategoryName } = useSelector(
     (state) => state.currentGenreOrCategory
@@ -38,12 +37,21 @@ const Sidenav = () => {
   const dispatch = useDispatch();
 
   return (
-    <div className="w-[16%] h-full border-r-2 border-zinc-400 p-3 relative overflow-auto">
-      <img
-        src="https://fontmeme.com/permalink/210930/8531c658a743debe1e1aa1a2fc82006e.png"
-        className="w-[15vw]"
-      />
-      <h1 className="text-white text-2xl mt-10 mb-5 font-semibold">New Feeds</h1>
+    <div
+      className={`fixed top-0 left-0 h-screen bg-[#1F1E24] border-r-2 border-zinc-100 p-2 transition-transform transform ${
+        isVisible ? "translate-x-0" : "-translate-x-full"
+      } sm:translate-x-0 z-[1001]`}
+      style={{ width: `${width}px` }}
+    >
+      <Link to="/">
+        <img
+          src="https://fontmeme.com/permalink/210930/8531c658a743debe1e1aa1a2fc82006e.png"
+          className="w-[60vw] sm:w-[13vw]"
+        />
+      </Link>
+      <h1 className="text-white text-2xl mt-10 mb-5 font-semibold">
+        New Feeds
+      </h1>
       <div className="flex flex-col gap-1">
         {List.map((l, i) => (
           <Link
