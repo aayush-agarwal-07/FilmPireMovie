@@ -1,7 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import useWindowSize from "../../customHooks/useIsSmallScreen";
 
 const Header = ({ data }) => {
+  const size = useWindowSize();
   const imageUrl = `url(https://image.tmdb.org/t/p/original/${
     data.backdrop_path || data.profile_path
   })`;
@@ -17,8 +19,10 @@ const Header = ({ data }) => {
       <h1 className="text-3xl text-white font-bold">
         {data.name || data.title || data.original_name || data.original_title}
       </h1>
-      <p className="w-[50%] font-normal text-white">
-        {data.overview.slice(0, 400)}
+      <p className="w-[95%] sm:w-[50%] font-normal text-white">
+        {size.width >= 640
+          ? data.overview.slice(0, 400)
+          : data.overview.slice(0, 200)}{" "}
         <span className="hover:text-blue-500 cursor-pointer">
           <Link to={`/${data.media_type}/details/${data.id}}`}>...more</Link>
         </span>

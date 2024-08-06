@@ -68,7 +68,7 @@ const Home = () => {
         <Topnav />
         <Header data={wallpaper} />
         <div className="w-full h-[10vh] flex justify-between items-center py-7 z-10">
-          <h1 className="text-2xl font-medium text-white pl-[1%] ">Trending</h1>
+          <h1 className="text-2xl font-medium text-white pl-[3%] sm:pl-[1%] ">Trending</h1>
           <Dropdown
             title="Filter"
             options={["movie", "tv", "all"]}

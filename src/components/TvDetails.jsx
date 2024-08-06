@@ -52,8 +52,6 @@ const TvDetails = () => {
     );
   }, [watchlistTv, data]);
 
-  
-
   const addToFavorites = async () => {
     await axios.post(
       `https://api.themoviedb.org/3/account/${user.id}/favorite?api_key=${
@@ -126,9 +124,7 @@ const TvDetails = () => {
   //     return null; // or an appropriate fallback, e.g., a default image URL
   //   }
   // };
-
-  console.log(info?.detail?.networks[0]?.logo_path)
-  const logo_path =  info?.detail?.networks[0]?.logo_path;
+  const logo_path = info?.detail?.networks[0]?.logo_path;
 
   return info ? (
     <div
@@ -137,12 +133,12 @@ const TvDetails = () => {
         backgroundPosition: "center",
         backgroundSize: "cover",
       }}
-      className="w-screen h-[170vh] px-[5%] relative object-"
+      className="w-full min-h-[240vh] px-[5%] relative object-"
     >
       {/* Part 1 Nav*/}
       <nav className="w-[100%] h-[10vh] text-zinc-300 flex items-center gap-6 text-lg">
         <i
-          className="ri-arrow-left-line hover:text-blue-400 text-2xl font-semibold text-zinc-200 mr-5 "
+          className="ri-arrow-left-line hover:text-blue-400 text-2xl font-semibold text-zinc-200 mr-5 cursor-pointer"
           onClick={() => navigate(-1)}
         ></i>
 
@@ -163,16 +159,18 @@ const TvDetails = () => {
         >
           imdb
         </a>
-        <Link to="/" className="ml-[83%] hover:text-white text-[18px]">
+        <Link
+          to="/"
+          className="ml-[28%] sm:ml-[83%] hover:text-white text-[18px]"
+        >
           Home
         </Link>
       </nav>
 
       {/* Part 2 */}
-      <div className="w-full h-[60vh] flex mx-[7%]">
-
-         {/* Part 2a Streaming Partner */}
-         {logo_path && (
+      <div className="w-full min-h-[60vh] flex flex-col sm:flex-row relative mx-[7%]">
+        {/* Part 2a Streaming Partner */}
+        {logo_path && (
           <div className=" w-[30vw] h-[4vh] flex justify-center mt-[26vh] absolute right-[74.5vw]">
             {/* <h3 className="text-white text-2xl font-medium bg-black w-[25vh] rounded text-center">
               Available Platform
@@ -182,10 +180,10 @@ const TvDetails = () => {
             bg-white w-[9vh] h-[9vh] flex justify-center items-center"
             >
               <img
-              className="h-[4vh] w-[4vw] object-contain rounded"
-              src={`https://image.tmdb.org/t/p/w500/${logo_path}`}
-              alt=""
-            /> 
+                className="w-[6vh] h-[6vh] sm:h-[6vh] sm:w-[6vw] object-contain"
+                src={`https://image.tmdb.org/t/p/w500/${logo_path}`}
+                alt=""
+              />
             </span>
             {/* <img
               className="h-[4vh] w-[4vw] object-contain rounded"
@@ -196,13 +194,15 @@ const TvDetails = () => {
         )}
 
         {/* Part 2b Poster */}
-        <img className="h-[55vh] object-contain shadow-[8px_17px_18px_2px] mt-2"
+        <img
+          className="h-[55vh] object-contain shadow-[8px_17px_18px_2px] mt-2 mr-[15%] sm:mr-0"
           src={`https://image.tmdb.org/t/p/w500/${info.detail.poster_path}`}
-          alt=""/>
-         
+          alt=""
+        />
+
         {/* Part 2c Details */}
-        <div className="content mr-10 w-[67%] ml-[5%]">
-          <h1 className="text-white text-4xl font-black">
+        <div className="content sm:mr-10 sm:w-[67%] sm:ml-[5%]">
+          <h1 className="text-white text-2xl sm:text-4xl font-medium sm:font-black">
             {info.detail.name ||
               info.detail.title ||
               info.detail.original_name ||
@@ -213,13 +213,19 @@ const TvDetails = () => {
                 : ""}
             </small>
           </h1>
-          <div className="flex text-white items-center gap-x-4 mt-3 mb-5">
+          <div className="flex flex-wrap gap-5 sm:gap-5 sm:flex-row text-white items-start sm:items-center gap-x-4 mt-3 mb-5">
             <span
               className="rounded-full text-lg font-semibold 
-            bg-yellow-500 text-white w-[7vh] h-[7vh] flex justify-center items-center"
+            bg-yellow-500 text-white w-[5vh] h-[5vh] sm:w-[7vh] sm:h-[7vh] flex justify-center items-center"
             >
-              {(info.detail.vote_average * 10).toFixed()}
-              <sup>%</sup>
+              {(info.detail.vote_average * 10).toFixed() === "0" ? (
+                "NA"
+              ) : (
+                <>
+                  {(info.detail.vote_average * 10).toFixed()}
+                  <sup>%</sup>
+                </>
+              )}
             </span>
             <h1 className="w-[20px] font-semibold text-xl leading-5 mr-8">
               User Score
@@ -231,15 +237,15 @@ const TvDetails = () => {
             {info.detail.tagline}
           </h1>
           <h1 className="text-2xl mt-2 mb-1 text-white">Overview</h1>
-          <p className="text-white leading-5 w-[80%]">
+          <p className="text-white leading-5 w-[89%] sm:w-[85%]">
             {truncateOverview(info.detail.overview)}
           </p>
           {/* {/buttons} */}
           <div className="flex gap-2">
             <Link
               to={`${pathname}/trailer`}
-              className="text-black bg-white font-medium px-3 h-[35px] flex items-center 
-              justify-center rounded-xl mt-3 hover:bg-zinc-300"
+              className="text-black bg-white font-medium px-3 h-[27px] sm:h-[35px] sm:flex items-center 
+              justify-center rounded-xl mt-3 hover:bg-zinc-300 "
             >
               <span>
                 <i className="ri-play-fill mr-1"></i>
@@ -248,8 +254,8 @@ const TvDetails = () => {
             </Link>
             <button
               onClick={addToFavorites}
-              className="text-white font-medium px-3 h-[35px] flex items-center 
-              justify-center rounded-xl mt-3"
+              className="text-white font-medium px-3 h-[27px] sm:h-[35px] flex items-center 
+        justify-center rounded-xl mt-3 w-[6vw] ml-6 sm:ml-2"
             >
               <span className="mr-1">
                 {isTvFavorited ? <MdFavorite /> : <MdFavoriteBorder />}
@@ -258,8 +264,8 @@ const TvDetails = () => {
             </button>
             <button
               onClick={addToWatchlist}
-              className="text-white font-medium px-3 h-[35px] flex items-center 
-              justify-center rounded-xl mt-3 "
+              className="text-white font-medium px-3 h-[27px] sm:h-[35px] flex items-center 
+              justify-center rounded-xl mt-3 ml-3 sm:ml-0"
             >
               <span className="mr-1">
                 {isTvWatchlisted ? <CgRemove /> : <MdPlusOne />}
@@ -268,8 +274,10 @@ const TvDetails = () => {
             </button>
           </div>
           {/* cast */}
-          <h1 className="text-white text-2xl italic mt-3">Top Cast</h1>
-          <div className="flex gap-5">
+          {data.credits.cast.length > 0 && (
+            <h1 className="text-white text-2xl italic mt-3">Top Cast</h1>
+          )}
+          <div className="flex flex-wrap gap-3 sm:gap-3">
             {data &&
               data.credits.cast
                 .map(
@@ -277,13 +285,19 @@ const TvDetails = () => {
                     character.profile_path && (
                       <div key={i} className="flex flex-col">
                         <img
-                          className="w-[120px] h-[160px] bg-red-100 rounded mt-4 object-cover"
+                          className="w-[20vw] h-[20vw] sm:w-[130px] sm:h-[160px] bg-red-100 rounded mt-4 object-cover sm:object-cover"
                           src={`https://image.tmdb.org/t/p/w500/${character.profile_path}`}
                           alt=""
                         />
-                        <h1 className="text-white">{character?.name}</h1>
-                        <h1 className="text-zinc-400">
-                          {character.character.split("/")[0].split(' ').slice(0, 2).join(' ')}
+                        <h1 className="text-white text-sm sm:text-base">
+                          {character?.name}
+                        </h1>
+                        <h1 className="text-zinc-400 text-sm sm:text-base">
+                          {character.character
+                            .split("/")[0]
+                            .split(" ")
+                            .slice(0, 2)
+                            .join(" ")}
                         </h1>
                       </div>
                     )
@@ -293,10 +307,10 @@ const TvDetails = () => {
         </div>
       </div>
 
-      <hr className="border-none h-[1px] bg-zinc-400 mt-1" />
+      <hr className="border-none h-[1px] bg-blue-400 mt-1" />
 
       {/* Part 3 Seasons*/}
-      <h1 className="mt-3 text-2xl font-semibold text-white">
+      <h1 className="mt-3 text-xl sm:text-2xl font-medium sm:font-semibold text-white">
         <span className="text-white mr-2">{data.number_of_seasons}</span>
         {data.number_of_seasons > 1 ? "Seasons" : "Season"}
       </h1>
@@ -319,11 +333,15 @@ const TvDetails = () => {
       )}
 
       {/* Part 4 Recommendations and Similar Stuff*/}
-      <h1 className=" text-2xl font-semibold text-white">
+      <h1 className=" text-xl sm:text-2xl font-medium sm:font-semibold text-white">
         Recommendations and Similar Stuff
       </h1>
 
-      <HorizontalCards data={info.recommendations.length > 0 ? info.recommendations : info.similar}/>
+      <HorizontalCards
+        data={
+          info.recommendations.length > 0 ? info.recommendations : info.similar
+        }
+      />
 
       <Outlet />
     </div>

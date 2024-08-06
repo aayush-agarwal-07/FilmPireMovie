@@ -70,4 +70,26 @@ select::-ms-expand {
   background: #1277D3;
 }
 
+@media (max-width: 768px) {
+  .select::after {
+    
+  }
+}
+
+/* global.css */
+
+/* Hide scrollbar for Chrome, Safari and Opera for small and medium devices */
+@media (max-width: 768px) {
+  *::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox for small and medium devices */
+  * {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+}
+
+
 

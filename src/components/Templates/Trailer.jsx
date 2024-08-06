@@ -46,6 +46,10 @@ const Trailer = () => {
     return (
       <div className="absolute bg-[rgba(0,0,0,0.9)] z-[100] top-[0%] left-[0%] w-screen h-screen flex items-center justify-center">
         <p className="text-white">{error}</p>
+        <Link
+          onClick={() => navigate(-1)}
+          className="absolute hover:text-blue-500 ri-close-fill text-3xl text-white right-[10%] top-[10%] sm:right-[5%] sm:top-[5%] z-[10000]"
+        ></Link>
       </div>
     );
   }
@@ -53,10 +57,6 @@ const Trailer = () => {
   if (!trailer) {
     return (
       <div className="absolute bg-[rgba(0,0,0,0.9)] z-[100] top-[0%] left-[0%] w-screen h-screen flex items-center justify-center">
-        <Link
-          onClick={() => navigate(-1)}
-          className="absolute hover:text-blue-500 ri-close-fill text-3xl text-white right-[5%] top-[5%]"
-        ></Link>
         <p className="text-white">No trailer available</p>
       </div>
     );
@@ -68,7 +68,7 @@ const Trailer = () => {
         onClick={() => navigate(-1)}
         className="absolute hover:text-blue-500 ri-close-fill text-3xl text-white right-[5%] top-[5%]"
       ></Link>
-      <div className="scale-[2]">
+      <div className="scale-[0.6] sm:scale-[2]">
         <ReactPlayer controls url={trailer} />
       </div>
     </div>

@@ -19,15 +19,15 @@ const HorizontalCards = ({ data }) => {
   };
 
   return (
-    <div className="w-full h-[470px] flex flex-nowrap overflow-x-auto pt-3 gap-4 z-1 overflow-hidden pl-[1%]">
+    <div className="w-full h-[380px] flex flex-nowrap overflow-x-auto pt-3 gap-4 z-1 overflow-hidden pl-[1%]">
       {data.map((d, i) => (
         <Link
           to={`/${d.media_type}/details/${d.id}}`}
           key={i}
-          className="w-[13.5vw] h-full bg-transparent flex-shrink-0 transition-transform duration-300 relative hover:z-20 mb-2"
+          className="w-[50vw] sm:w-[13.5vw] h-full bg-transparent flex-shrink-0 transition-transform duration-300 relative hover:z-20 mb-2"
         >
           <img
-            className="h-[400px] w-full object-cover rounded "
+            className="sm:h-[400px] w-full object-cover rounded "
             src={
               d.poster_path
                 ? `https://image.tmdb.org/t/p/w500/${d.poster_path}`

@@ -75,17 +75,19 @@ const Popular = () => {
 
   return (
     <div className="w-[100%] sm:w-[84%] sm:left-[16%] pt-[2%] relative">
-      <div className="w-[100%] flex items-center justify-between px-10 z-20">
-        <div className="flex">
-          <Link to="/">
-            <i className="ri-arrow-left-line hover:text-blue-400 text-2xl font-semibold text-white mr-5 block sm:hidden"></i>{" "}
-          </Link>
-          <h1 className="text-3xl font-semibold text-zinc-400 -mt-1">Popular</h1>
+      <div className="w-[100%] flex flex-col sm:flex-row items-center justify-between px-10 z-20">
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-0">
+          {/* <Link to="/">
+            <i className="ri-arrow-left-line hover:text-blue-400 text-2xl font-semibold text-white mr-2 sm:mr-5 hidden"></i>
+          </Link> */}
+          <h1 className="text-2xl sm:text-3xl font-semibold text-zinc-400 sm:-mt-1 mr-[60vw] mt-[5vh] hidden sm:block">
+            Popular
+          </h1>
         </div>
-        <div className="w-[84%] ml-[8%] mr-[10%] z-[1000000] absolute left-0 ">
+        <div className="z-[10000]">
           <Topnav />
         </div>
-        <div className="flex fixed z-[10000] right-10 top-[8.5]">
+        <div className="flex absolute sm:fixed z-[1000] right-[30%] sm:right-0 top-[6%] sm:top-[3.5%]">
           <Dropdown
             title="Filter"
             options={["movie", "tv"]}
@@ -94,7 +96,8 @@ const Popular = () => {
         </div>
       </div>
 
-      <hr className="animated-hr w-full h-[1px] border-none bg-blue-400 mt-7" />
+      <hr className="animated-hr w-full h-[1px] border-none bg-blue-400 mt-[10vh] sm:mt-7" />
+
 
       <InfiniteScroll
         dataLength={popular.length}

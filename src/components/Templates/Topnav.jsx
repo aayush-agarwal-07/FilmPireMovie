@@ -67,21 +67,22 @@ const Topnav = () => {
 
   return (
     <div
-      className={`fixed top-0 left-0 h-[5vh] flex justify-center items-center w-full border-r-2 border-zinc-900 p-2 z-10 sm:h-[10vh] sm:left-[15%] sm:w-[85%]`}
+      className={`fixed top-0 left-10 h-[5vh] flex justify-start sm:justify-center items-center w-full border-r-2 border-zinc-900 p-1 sm:p-2 z-10 sm:h-[10vh] sm:left-[15%] sm:w-[85%]`}
     >
       {/* Ensure this has higher z-index than other elements */}
-      <div className="w-[60%] flex items-center justify-center relative bg-transparent rounded-full bg-zinc-300">
-        <i className="ri-search-line text-black text-xl"></i>
+      
+      <div className="w-[65vw] sm:w-[60%] flex items-center sm:justify-center relative bg-transparent rounded-full bg-zinc-300">
+        <i className="ri-search-line text-black text-xl ml-4 sm:ml-0"></i>
         <input
           type="text"
           placeholder="Search Anything..."
-          className="w-[70%] border-none bg-transparent outline-none rounded text-zinc-900 mx-10 p-3 relative z-[1000]"
+          className="w-[48vw] sm:w-[70%] border-none bg-transparent outline-none rounded text-zinc-900 mx-2 sm:mx-10 p-1 sm:p-3 relative z-[1000]"
           onChange={(e) => setQuery(e.target.value)}
           value={query}
         />
         {query.length > 0 && (
           <i
-            className="ri-close-line  text-2xl cursor-pointer hover:text-blue-600 absolute right-[9.5%]"
+            className="ri-close-line text-2xl cursor-pointer hover:text-blue-600 absolute right-[3.5%] sm:right-[9.5%]"
             onClick={() => setQuery("")}
           ></i>
         )}
@@ -101,7 +102,7 @@ const Topnav = () => {
       )}
 
       {query.length > 0 && (
-        <div className="absolute top-[100%] left-[26.5%] bg-zinc-200 w-[40vw] max-h-[50vh] overflow-auto rounded shadow-lg z-[1500]">
+        <div className="absolute top-[100%] left-1 sm:left-[26.5%] bg-zinc-200 w-[85vw] sm:w-[40vw] max-h-[50vh] overflow-auto rounded shadow-lg z-[1500]">
           {/* Adjust z-index to ensure it appears above other elements */}
           {searchResults.map((s, i) => (
             <Link
@@ -110,7 +111,7 @@ const Topnav = () => {
               className="p-2 border font-semibold text-zinc-600 border-b-zinc-400 hover:bg-zinc-300 hover:text-black duration-300 flex justify-start items-center gap-2 border-b-2 border-zinc-100"
             >
               <img
-                className="w-[9vw] h-[9vh] object-cover rounded shadow-lg mr-5 bg-red"
+                className="w-[20vw] h-[15vw] sm:w-[9vw] sm:h-[9vh] object-cover rounded shadow-lg mr-5 bg-red"
                 src={
                   s.backdrop_path || s.profile_path
                     ? `https://image.tmdb.org/t/p/w500/${
