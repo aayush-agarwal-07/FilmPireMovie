@@ -17,7 +17,7 @@ const Cards = ({ data, title }) => {
   return isLoading ? (
     <Loading />
   ) : (
-    <div className="w-full min-h-full bg-[#1F1E24] p-2 sm:p-[3%] flex flex-wrap justify-center items-center gap-5 sm:gap-4 ">
+    <div className="w-full min-h-full bg-[#1F1E24] p-1 sm:p-[3%] flex flex-wrap justify-center items-center gap-2 sm:gap-4 ">
       {data.map((d, i) => (
         <Link
           to={`/${d.media_type || title}/details/${d.id}`}
