@@ -19,7 +19,7 @@ const HorizontalCards = ({ data }) => {
   };
 
   return (
-    <div className="w-full h-[464px] flex flex-nowrap overflow-x-auto pt-3 gap-4 z-1 overflow-hidden pl-[1%]">
+    <div className="w-full h-[370px] sm:h-[464px] flex flex-nowrap overflow-x-auto pt-3 gap-4 z-1 overflow-hidden pl-[1%]">
       {data.map((d, i) => (
         <Link
           to={`/${d.media_type}/details/${d.id}}`}
