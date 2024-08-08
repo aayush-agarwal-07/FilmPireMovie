@@ -133,7 +133,7 @@ const TvDetails = () => {
         backgroundPosition: "center",
         backgroundSize: "cover",
       }}
-      className="w-full min-h-[240vh] px-[5%] relative object-"
+      className="w-full h-[250vh] sm:h-[170vh] px-[5%] relative"
     >
       {/* Part 1 Nav*/}
       <nav className="w-[100%] h-[10vh] text-zinc-300 flex items-center gap-6 text-lg">
@@ -168,10 +168,10 @@ const TvDetails = () => {
       </nav>
 
       {/* Part 2 */}
-      <div className="w-full min-h-[60vh] flex flex-col sm:flex-row relative mx-[7%]">
+      <div className="w-[95%] min-h-[60vh] flex flex-col sm:flex-row relative mx-[7%]">
         {/* Part 2a Streaming Partner */}
         {logo_path && (
-          <div className=" w-[30vw] h-[4vh] flex justify-center mt-[26vh] absolute right-[74.5vw]">
+          <div className=" w-[30vw] h-[4vh] flex justify-center mt-[26vh] absolute right-[72vw] sm:right-[70.5vw]">
             {/* <h3 className="text-white text-2xl font-medium bg-black w-[25vh] rounded text-center">
               Available Platform
             </h3> */}
@@ -201,8 +201,8 @@ const TvDetails = () => {
         />
 
         {/* Part 2c Details */}
-        <div className="content sm:mr-10 sm:w-[67%] sm:ml-[5%]">
-          <h1 className="text-white text-2xl sm:text-4xl font-medium sm:font-black">
+        <div className="content sm:mr-10 w-[92%] -ml-1 sm:ml-[5%]">
+          <h1 className="text-white text-2xl sm:text-4xl font-medium sm:font-black mt-2 sm:mt-0">
             {info.detail.name ||
               info.detail.title ||
               info.detail.original_name ||
@@ -233,11 +233,11 @@ const TvDetails = () => {
             <h1>{info.detail.release_date}</h1>
             <h1>{info.detail.genres.map((g) => g.name).join(", ")}</h1>
           </div>
-          <h1 className="text-xl font-semibold italic text-zinc-200">
+          <h1 className="text-xl font-semibold italic text-zinc-200 w-[70vw] sm:w-[50vw]">
             {info.detail.tagline}
           </h1>
           <h1 className="text-2xl mt-2 mb-1 text-white">Overview</h1>
-          <p className="text-white leading-5 w-[89%] sm:w-[85%]">
+          <p className="text-white leading-5 w-[100%] sm:w-[85%]">
             {truncateOverview(info.detail.overview)}
           </p>
           {/* {/buttons} */}
@@ -277,7 +277,7 @@ const TvDetails = () => {
           {data.credits.cast.length > 0 && (
             <h1 className="text-white text-2xl italic mt-3">Top Cast</h1>
           )}
-          <div className="flex flex-wrap gap-3 w-[87vw]">
+          <div className="flex flex-wrap gap-3 min-w-[10vw] mb-2">
             {data &&
               data.credits.cast
                 .map(
@@ -292,7 +292,7 @@ const TvDetails = () => {
                           src={`https://image.tmdb.org/t/p/w500/${character.profile_path}`}
                           alt=""
                         />
-                        <h1 className="text-white text-sm sm:text-base line-clamp-1">
+                        <h1 className="text-white text-sm sm:text-base">
                           {character?.name}
                         </h1>
                         <h1 className="text-zinc-400 text-sm sm:text-base line-clamp-1">

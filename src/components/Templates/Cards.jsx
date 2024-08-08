@@ -22,7 +22,7 @@ const Cards = ({ data, title }) => {
         <Link
           to={`/${d.media_type || title}/details/${d.id}`}
           key={i}
-          className="card w-[180px] sm:w-[300px] h-[320px] sm:h-[500px] shadow-[8px_17px_18px_2px] bg-[#1F1E24] p-2 sm:p-[1%] transition duration-300 transform hover:scale-[1.10] hover:z-[999] rounded-3xl group"
+          className="card w-[180px] sm:w-[300px] h-[295px] sm:h-[490px] shadow-[8px_17px_18px_2px] bg-[#1F1E24] p-2 sm:p-[1%] transition duration-300 transform hover:scale-[1.10] hover:z-[999] rounded-3xl group"
         >
           <img
             className="h-[260px] sm:h-[620px] w-full object-contain -mt-[5px] rounded-2xl sm:-mt-[85px]"
@@ -35,7 +35,7 @@ const Cards = ({ data, title }) => {
             }
             alt={d.name || d.title || d.original_name || d.original_title}
           />
-          <h1 className="text-lg text-white font-semibold text-start group-hover:text-black leading-5 mt-0 sm:-mt-[105px]">
+          <h1 className="text-lg text-white font-semibold text-start group-hover:text-black leading-5 mt-0 sm:-mt-[95px] line-clamp-1">
             {(d.name || d.title || d.original_name || d.original_title).slice(
               0,
               48

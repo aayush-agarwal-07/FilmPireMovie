@@ -199,7 +199,7 @@ const MovieDetails = () => {
 
         {/* Part 2c Details */}
         <div className="content sm:mr-10 sm:w-[67%] sm:ml-[5%]">
-          <h1 className="text-white text-2xl sm:text-4xl font-medium sm:font-black">
+          <h1 className="text-white text-2xl sm:text-4xl font-medium sm:font-black mt-2 sm:mt-0">
             {info.detail.name ||
               info.detail.title ||
               info.detail.original_name ||
@@ -271,7 +271,7 @@ const MovieDetails = () => {
           {data.credits.cast.length > 0 && (
             <h1 className="text-white text-2xl italic mt-3">Top Cast</h1>
           )}
-          <div className="flex flex-wrap gap-3 w-[87vw]">
+          <div className="flex flex-wrap gap-3 w-[87vw] mb-2">
             {data &&
               data.credits.cast
                 .map(
@@ -283,7 +283,7 @@ const MovieDetails = () => {
                           src={`https://image.tmdb.org/t/p/w500/${character.profile_path}`}
                           alt=""
                         />
-                        <h1 className="text-white text-sm sm:text-base line-clamp-1">
+                        <h1 className="text-white text-sm sm:text-base">
                           {character?.name}
                         </h1>
                         <h1 className="text-zinc-400 text-sm sm:text-base line-clamp-1">

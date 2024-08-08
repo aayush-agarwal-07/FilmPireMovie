@@ -19,12 +19,12 @@ const HorizontalCards = ({ data }) => {
   };
 
   return (
-    <div className="w-full h-[380px] flex flex-nowrap overflow-x-auto pt-3 gap-4 z-1 overflow-hidden pl-[1%]">
+    <div className="w-full h-[464px] flex flex-nowrap overflow-x-auto pt-3 gap-4 z-1 overflow-hidden pl-[1%]">
       {data.map((d, i) => (
         <Link
           to={`/${d.media_type}/details/${d.id}}`}
           key={i}
-          className="w-[50vw] sm:w-[13.5vw] h-full bg-transparent flex-shrink-0 transition-transform duration-300 relative hover:z-20 mb-2"
+          className="w-[50vw] sm:w-[13.5vw] h-full bg-transparent flex-shrink-0 transition-transform duration-300 relative hover:z-20"
         >
           <img
             className="sm:h-[400px] w-full object-cover rounded "
@@ -35,7 +35,7 @@ const HorizontalCards = ({ data }) => {
             }
             alt={d.name || d.title || d.original_name || d.original_title}
           />
-          <div className="font-medium text-xl w-[95%] h-[10vh] leading-6 text-white mt-2">
+          <div className="font-medium text-xl w-[95%] text-white mt-2 line-clamp-1">
             {getTitle(d).slice(0, 43)}
           </div>
         </Link>
