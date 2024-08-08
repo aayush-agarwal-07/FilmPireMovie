@@ -271,22 +271,22 @@ const MovieDetails = () => {
           {data.credits.cast.length > 0 && (
             <h1 className="text-white text-2xl italic mt-3">Top Cast</h1>
           )}
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-3 w-[87vw]">
             {data &&
               data.credits.cast
                 .map(
                   (character, i) =>
                     character.profile_path && (
-                      <div key={i} className="flex flex-col">
+                      <div key={i} className="flex flex-col w-[24vw] sm:w-[150px]">
                         <img
                           className="w-[20vw] h-[20vw] sm:w-[130px] sm:h-[160px] bg-red-100 rounded mt-4 object-cover sm:object-cover"
                           src={`https://image.tmdb.org/t/p/w500/${character.profile_path}`}
                           alt=""
                         />
-                        <h1 className="text-white text-sm sm:text-base">
+                        <h1 className="text-white text-sm sm:text-base line-clamp-1">
                           {character?.name}
                         </h1>
-                        <h1 className="text-zinc-400 text-sm sm:text-base">
+                        <h1 className="text-zinc-400 text-sm sm:text-base line-clamp-1">
                           {character.character
                             .split("/")[0]
                             .split(" ")
